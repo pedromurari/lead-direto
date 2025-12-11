@@ -31,7 +31,7 @@ export const HeroSection = () => {
           
           {/* Subheadline */}
           <p className="text-lg md:text-2xl mb-6 md:mb-8 text-gray-200 leading-relaxed px-2 text-center">
-            ✨ <strong>Presente de Natal especial!</strong> Transforme seu 2025 com este presente.<br />
+            ✨ <strong>Presente de Natal especial!</strong> Transforme seu 2026 com este presente.<br />
             Porque <span className="text-idm-gold font-semibold">antes de cuidar do outro, você aprende a cuidar de si.</span>
           </p>
 
@@ -108,7 +108,7 @@ export const HeroSection = () => {
           <div className="mb-6 md:mb-8 px-2">
             <CTAButton 
               id="btn-whatsapp-hero" 
-              text="🎁 QUERO TRANSFORMAR MEU 2025" 
+              text="🎁 QUERO TRANSFORMAR MEU 2026" 
             />
           </div>
           

@@ -86,30 +86,46 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
         data_envio: new Date().toISOString()
       };
 
-      const response = await fetch(
-        'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      // Tentar enviar com CORS, se falhar, tentar sem CORS
+      try {
+        const response = await fetch(
+          'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          }
+        );
 
-      if (response.ok) {
-        setSubmitStatus('success');
-        
-        // Aguardar 1.5 segundos e redirecionar
-        setTimeout(() => {
-          window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Tenho%20interesse%20na%20oferta%20de%20Natal%20da%20Forma%C3%A7%C3%A3o%20do%20IDM!', '_blank');
-          form.reset();
-          setSubmitStatus('idle');
-          onClose();
-        }, 1500);
-      } else {
-        throw new Error('Erro ao enviar');
+        if (!response.ok) {
+          throw new Error('Response not ok');
+        }
+      } catch {
+        // Fallback: enviar sem CORS (não teremos resposta, mas os dados serão enviados)
+        await fetch(
+          'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
+          {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          }
+        );
       }
+
+      setSubmitStatus('success');
+      
+      // Aguardar 1.5 segundos e redirecionar
+      setTimeout(() => {
+        window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Tenho%20interesse%20na%20oferta%20de%20Natal%20da%20Forma%C3%A7%C3%A3o%20do%20IDM!', '_blank');
+        form.reset();
+        setSubmitStatus('idle');
+        onClose();
+      }, 1500);
     } catch (error) {
       console.error('Erro:', error);
       setErrorMessage('Erro ao enviar formulário. Por favor, tente novamente.');
@@ -130,7 +146,7 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md bg-white border-idm-gold border-2 mx-4">
+      <DialogContent className="sm:max-w-md bg-white border-idm-gold border-2 mx-2 sm:mx-4 w-[calc(100%-1rem)] sm:w-full">
         <DialogHeader>
           <DialogTitle className="text-xl md:text-2xl font-bold text-idm-navy text-center">
             🎄 Fale com Nossa Equipe

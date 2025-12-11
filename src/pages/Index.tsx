@@ -53,7 +53,7 @@ const Index = () => {
           <CTAButton 
             id="btn-whatsapp-3" 
             variant="navy" 
-            text="🎁 QUERO TRANSFORMAR MEU 2025" 
+            text="🎁 QUERO TRANSFORMAR MEU 2026" 
           />
         </div>
       </div>
