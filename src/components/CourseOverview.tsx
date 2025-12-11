@@ -26,12 +26,12 @@ export const CourseOverview = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-white">
+    <section className="py-8 md:py-10 bg-white">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Título da seção */}
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-idm-navy mb-4 md:mb-6">
+          <div className="text-center mb-8 md:mb-10">
+            <h2 className="text-3xl md:text-5xl font-bold text-idm-navy mb-4">
               Formação em <span className="text-idm-gold">Psicanálise Clínica Integrativa</span>
             </h2>
             <p className="text-lg md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed px-2">
@@ -41,7 +41,7 @@ export const CourseOverview = () => {
           </div>
 
           {/* Grid de características */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8 md:mb-10">
             {features.map((feature, index) => (
               <div 
                 key={index}

@@ -54,12 +54,12 @@ export const CourseContent = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-idm-light-blue">
+    <section className="py-8 md:py-10 bg-idm-light-blue">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Título da seção */}
-          <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-idm-navy mb-4 md:mb-6">
+          <div className="text-center mb-8 md:mb-10">
+            <h2 className="text-3xl md:text-5xl font-bold text-idm-navy mb-4">
               Conteúdo do <span className="text-idm-gold">Curso</span>
             </h2>
             <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto px-2">
@@ -69,7 +69,7 @@ export const CourseContent = () => {
           </div>
 
           {/* Tripé Psicanalítico */}
-          <div className="mb-12 md:mb-16 text-center">
+          <div className="mb-8 md:mb-10 text-center">
             <img 
               src="/lovable-uploads/d782be5c-ea03-4cb3-a054-f9294b1af9ed.png"
               alt="Tripé Psicanalítico: Teoria, Análise e Supervisão"
@@ -121,7 +121,7 @@ export const CourseContent = () => {
           </div>
 
           {/* Destaque da metodologia */}
-          <div className="mt-12 md:mt-16 bg-gradient-to-r from-idm-gold to-yellow-500 rounded-2xl p-6 md:p-12 text-center mx-2 md:mx-0">
+          <div className="mt-8 md:mt-10 bg-gradient-to-r from-idm-gold to-yellow-500 rounded-2xl p-6 md:p-10 text-center mx-2 md:mx-0">
             <h3 className="text-2xl md:text-4xl font-bold text-idm-navy mb-4 md:mb-6">
               Metodologia Exclusiva do iDM
             </h3>

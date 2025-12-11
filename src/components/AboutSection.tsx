@@ -1,5 +1,4 @@
-
-import { Heart, Users, Award, Target } from 'lucide-react';
+import { Heart, Users, Award, Target, GraduationCap, ShieldCheck } from 'lucide-react';
 
 export const AboutSection = () => {
   const stats = [
@@ -26,17 +25,17 @@ export const AboutSection = () => {
   ];
 
   return (
-    <section className="py-12 md:py-16 bg-idm-light-blue">
+    <section className="py-8 md:py-12 bg-idm-light-blue">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Título da seção */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h2 className="text-4xl md:text-5xl font-bold text-idm-navy mb-6">
               Sobre o <span className="text-idm-gold">Instituto DespertaMENTE</span>
             </h2>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid lg:grid-cols-2 gap-8 items-center mb-10">
             {/* Conteúdo textual */}
             <div>
               <h3 className="text-3xl font-bold text-idm-navy mb-6">
@@ -69,8 +68,50 @@ export const AboutSection = () => {
             </div>
           </div>
 
+          {/* NOVO: Card Parceria Anhanguera */}
+          <div className="bg-gradient-to-r from-blue-900 via-idm-navy to-blue-900 border-4 border-idm-gold rounded-2xl p-6 md:p-8 mb-10 shadow-2xl">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="flex-shrink-0">
+                <div className="bg-idm-gold rounded-full p-4">
+                  <GraduationCap className="h-12 w-12 text-idm-navy" />
+                </div>
+              </div>
+              <div className="text-center md:text-left flex-1">
+                <h3 className="text-2xl md:text-3xl font-bold text-idm-gold mb-3">
+                  🎓 Novidade: Parceria com Faculdade Anhanguera
+                </h3>
+                <p className="text-lg text-white mb-4">
+                  Nosso curso agora é uma <strong className="text-idm-gold">Extensão Universitária</strong> reconhecida pelo MEC, 
+                  em parceria oficial com a <strong className="text-idm-gold">Faculdade Anhanguera</strong>!
+                </p>
+                <p className="text-base text-gray-200 mb-4">
+                  Isso significa que ao concluir sua formação, você receberá um certificado universitário com validade nacional, 
+                  emitido por uma das maiores instituições de ensino do Brasil.
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span className="text-sm">Certificado Universitário</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span className="text-sm">Reconhecimento MEC</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span className="text-sm">Parceria Anhanguera</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span className="text-sm">Validade Nacional</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Certificado */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="grid lg:grid-cols-2 gap-8 items-center mb-10">
             <div className="order-2 lg:order-1">
               <img 
                 src="/lovable-uploads/fbe2904a-d7b4-4247-8775-6d06582bb61e.png"
@@ -103,20 +144,20 @@ export const AboutSection = () => {
           </div>
 
           {/* Estatísticas */}
-          <div className="bg-gradient-to-r from-idm-navy to-idm-blue rounded-2xl p-8 md:p-12">
-            <h3 className="text-3xl font-bold text-white text-center mb-12">
+          <div className="bg-gradient-to-r from-idm-navy to-idm-blue rounded-2xl p-6 md:p-10">
+            <h3 className="text-2xl md:text-3xl font-bold text-white text-center mb-8">
               Números que Comprovam Nossa Excelência
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {stats.map((stat, index) => (
                 <div key={index} className="text-center">
-                  <div className="flex justify-center mb-4">
+                  <div className="flex justify-center mb-3">
                     {stat.icon}
                   </div>
-                  <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                  <div className="text-2xl md:text-3xl font-bold text-white mb-1">
                     {stat.number}
                   </div>
-                  <div className="text-gray-200">
+                  <div className="text-gray-200 text-sm">
                     {stat.label}
                   </div>
                 </div>
