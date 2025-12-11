@@ -18,12 +18,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Loader2, MessageCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { Loader2, MessageCircle, CheckCircle, AlertCircle } from 'lucide-react';
 
 const formSchema = z.object({
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
-  telefone: z.string().min(10, 'Telefone deve ter pelo menos 10 dígitos'),
+  telefone: z.string().min(10, 'WhatsApp deve ter pelo menos 10 dígitos'),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -33,9 +32,25 @@ interface WhatsAppLeadModalProps {
   onClose: () => void;
 }
 
+// Função para aplicar máscara de telefone brasileiro
+const formatPhoneNumber = (value: string) => {
+  const numbers = value.replace(/\D/g, '');
+  if (numbers.length <= 2) {
+    return `(${numbers}`;
+  }
+  if (numbers.length <= 7) {
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+  }
+  if (numbers.length <= 11) {
+    return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7)}`;
+  }
+  return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+};
+
 export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -45,59 +60,86 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
     },
   });
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    onChange(formatted);
+  };
+
   const onSubmit = async (data: FormData) => {
+    const phoneDigits = data.telefone.replace(/\D/g, '');
+    
+    if (phoneDigits.length < 10) {
+      setErrorMessage('Por favor, insira um WhatsApp válido com DDD');
+      setSubmitStatus('error');
+      return;
+    }
+
     setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
     
     try {
-      const formData = new FormData();
-      formData.append('nome', data.nome);
-      formData.append('telefone', data.telefone);
-      
+      const payload = {
+        nome: data.nome,
+        whatsapp: data.telefone,
+        origem: 'Site IDM Desperta Natal',
+        data_envio: new Date().toISOString()
+      };
+
       const response = await fetch(
-        'https://script.google.com/macros/s/AKfycbyGuSQ6JmemchAJTftqQW9dYSSUJ2NmUWgZyRMNC_Vi16hoIed3LjpZcbGJBC6XTLtB/exec',
+        'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
         {
           method: 'POST',
-          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         }
       );
 
-      // Google Apps Script sempre retorna sucesso se chegou até aqui
-      toast({
-        title: "Dados enviados com sucesso!",
-        description: "Sua condição especial foi garantida!",
-      });
-      
-      // Resetar formulário
-      form.reset();
-      
-      // Fechar modal e redirecionar após um breve delay
-      onClose();
-      setTimeout(() => {
-        window.open('https://bit.ly/idm_atendimento', '_blank');
-      }, 1000);
+      if (response.ok) {
+        setSubmitStatus('success');
+        
+        // Aguardar 1.5 segundos e redirecionar
+        setTimeout(() => {
+          window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Tenho%20interesse%20na%20oferta%20de%20Natal%20da%20Forma%C3%A7%C3%A3o%20do%20IDM!', '_blank');
+          form.reset();
+          setSubmitStatus('idle');
+          onClose();
+        }, 1500);
+      } else {
+        throw new Error('Erro ao enviar');
+      }
     } catch (error) {
-      toast({
-        title: "Erro ao enviar dados",
-        description: "Tente novamente ou entre em contato diretamente.",
-        variant: "destructive",
-      });
+      console.error('Erro:', error);
+      setErrorMessage('Erro ao enviar formulário. Por favor, tente novamente.');
+      setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const handleClose = () => {
+    if (!isSubmitting) {
+      form.reset();
+      setSubmitStatus('idle');
+      setErrorMessage('');
+      onClose();
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white border-idm-gold border-2">
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-md bg-white border-idm-gold border-2 mx-4">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-idm-navy text-center">
-            Quase lá! Vamos nos conhecer?
+          <DialogTitle className="text-xl md:text-2xl font-bold text-idm-navy text-center">
+            🎄 Fale com Nossa Equipe
           </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-4">
-          <p className="text-sm text-idm-navy text-center">
-            Para garantir os Bônus e Condição de Pagamento, preencha o Formulário.
+          <p className="text-sm md:text-base text-idm-navy text-center">
+            Preencha seus dados e nossa equipe entrará em contato agora pelo WhatsApp!
           </p>
           
           <Form {...form}>
@@ -107,12 +149,13 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
                 name="nome"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-idm-navy font-medium">Nome completo *</FormLabel>
+                    <FormLabel className="text-idm-navy font-medium">Nome Completo *</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="Digite seu nome completo"
+                        placeholder="Seu nome completo"
                         {...field}
-                        className="border-idm-gold focus:border-idm-navy"
+                        className="border-idm-gold focus:border-idm-navy h-12 text-base"
+                        disabled={isSubmitting}
                       />
                     </FormControl>
                     <FormMessage />
@@ -125,34 +168,62 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
                 name="telefone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-idm-navy font-medium">Telefone com DDD *</FormLabel>
+                    <FormLabel className="text-idm-navy font-medium">WhatsApp com DDD *</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="(11) 99999-9999"
-                        {...field}
-                        className="border-idm-gold focus:border-idm-navy"
+                        value={field.value}
+                        onChange={(e) => handlePhoneChange(e, field.onChange)}
+                        className="border-idm-gold focus:border-idm-navy h-12 text-base"
+                        disabled={isSubmitting}
+                        type="tel"
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <p className="text-xs text-gray-500 text-center">* Campos obrigatórios</p>
+
+              {/* Mensagem de sucesso */}
+              {submitStatus === 'success' && (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
+                  <span className="text-green-700 text-sm font-medium">
+                    ✅ Enviado com sucesso! Redirecionando para o WhatsApp...
+                  </span>
+                </div>
+              )}
+
+              {/* Mensagem de erro */}
+              {submitStatus === 'error' && errorMessage && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center gap-2">
+                  <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+                  <span className="text-red-700 text-sm font-medium">{errorMessage}</span>
+                </div>
+              )}
               
-              <div className="pt-4">
+              <div className="pt-2">
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-idm-gold text-idm-navy hover:bg-[#1D6F4C] hover:text-white font-bold transition-colors duration-300"
+                  disabled={isSubmitting || submitStatus === 'success'}
+                  className="w-full bg-idm-gold text-idm-navy hover:bg-green-600 hover:text-white font-bold transition-colors duration-300 h-14 text-base md:text-lg"
                 >
                   {isSubmitting ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                       Enviando...
+                    </>
+                  ) : submitStatus === 'success' ? (
+                    <>
+                      <CheckCircle className="mr-2 h-5 w-5" />
+                      Enviado! Redirecionando...
                     </>
                   ) : (
                     <>
-                      <MessageCircle className="mr-2 h-4 w-4" />
-                      Quero Garantir a Condição Especial
+                      <MessageCircle className="mr-2 h-5 w-5" />
+                      ENVIAR E FALAR COM CONSULTOR
                     </>
                   )}
                 </Button>
