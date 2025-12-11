@@ -1,6 +1,5 @@
-
 import { CTAButton } from './CTAButton';
-import { CheckCircle, Star, Clock, Award } from 'lucide-react';
+import { CheckCircle, Star, Clock, Award, GraduationCap, ShieldCheck } from 'lucide-react';
 
 export const HeroSection = () => {
   return (
@@ -18,28 +17,66 @@ export const HeroSection = () => {
       
       <div className="container mx-auto px-4 py-32 md:py-28 relative z-10">
         <div className="max-w-4xl mx-auto text-center text-white animate-fade-in">
-          {/* Badge */}
+          {/* Badge Natal */}
           <div className="inline-flex items-center bg-idm-gold text-idm-navy px-4 py-2 md:px-6 md:py-2 rounded-full font-semibold mb-6 md:mb-8 text-sm md:text-base">
             <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-            Formação Reconhecida
+            🎄 IDM DESPERTA NATAL ⭐
           </div>
           
           {/* Headline Principal - melhor alinhamento */}
           <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8 text-center">
-            <span className="text-idm-gold">Desperte</span> o Psicanalista<br />
+            <span className="text-idm-gold">🎁 Desperte</span> o Psicanalista<br />
             que há <span className="text-idm-gold">dentro de você!</span>
           </h1>
           
           {/* Subheadline */}
           <p className="text-lg md:text-2xl mb-6 md:mb-8 text-gray-200 leading-relaxed px-2 text-center">
-            Inicie uma jornada de <strong>autocura</strong>, <strong>propósito</strong> e <strong>realização profissional</strong>.<br />
+            ✨ <strong>Presente de Natal especial!</strong> Transforme seu 2025 com este presente.<br />
             Porque <span className="text-idm-gold font-semibold">antes de cuidar do outro, você aprende a cuidar de si.</span>
           </p>
+
+          {/* Card MEC + Anhanguera - DESTAQUE PRINCIPAL */}
+          <div className="bg-gradient-to-r from-blue-900 via-idm-navy to-blue-900 border-4 border-idm-gold rounded-2xl p-6 md:p-8 mb-8 shadow-2xl mx-2 relative overflow-hidden">
+            <div className="absolute top-0 right-0 bg-idm-gold text-idm-navy px-4 py-1 rounded-bl-lg font-bold text-sm">
+              ✅ RECONHECIDO
+            </div>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8">
+              <div className="flex items-center gap-3">
+                <GraduationCap className="h-12 w-12 md:h-16 md:w-16 text-idm-gold" />
+              </div>
+              <div className="text-center md:text-left">
+                <h3 className="text-xl md:text-2xl font-bold text-idm-gold mb-2">
+                  🎓 CURSO DE EXTENSÃO UNIVERSITÁRIA
+                </h3>
+                <p className="text-lg md:text-xl text-white mb-4">
+                  Reconhecido pelo MEC em parceria com a <strong>Faculdade Anhanguera</strong>
+                </p>
+                <div className="grid grid-cols-2 gap-3 text-sm md:text-base">
+                  <div className="flex items-center gap-2 text-white">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span>Certificado Universitário</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span>Reconhecimento MEC</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span>Instituição: Anhanguera</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white">
+                    <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
+                    <span>Validade Nacional</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           
           {/* Chamada Principal */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 md:mb-10 border border-white/20 mx-2">
             <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-6 text-idm-gold text-center">
-              Sua vida está prestes a tomar um novo rumo.
+              🎄 Sua vida está prestes a tomar um novo rumo.
             </h2>
             <p className="text-base md:text-xl mb-4 md:mb-6 leading-relaxed text-center">
               Descubra como acessar o poder do inconsciente, dominar suas emoções e transformar 
@@ -71,13 +108,13 @@ export const HeroSection = () => {
           <div className="mb-6 md:mb-8 px-2">
             <CTAButton 
               id="btn-whatsapp-hero" 
-              text="Quero me tornar um Psicanalista" 
+              text="🎁 QUERO TRANSFORMAR MEU 2025" 
             />
           </div>
           
           {/* Urgência */}
           <p className="text-base md:text-lg text-idm-gold font-semibold px-4">
-            🔥 Últimas vagas com bônus exclusivos - Garanta já a sua!
+            🎄 Oferta exclusiva de Natal - O melhor investimento para começar o ano novo! ⭐
           </p>
         </div>
       </div>
