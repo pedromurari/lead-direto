@@ -88,7 +88,7 @@ export const InvestmentSection = () => {
               <div className="text-2xl md:text-3xl font-bold text-idm-gold mb-1">12x R$ 109,90</div>
               <p className="text-gray-600 mb-2 text-sm">Parcelado no Cartão de Crédito </p>
               <div className="bg-gray-100 rounded-lg p-2 mb-3">
-                <p className="text-xs text-gray-700">Total: <strong>R$ 1.318,80</strong></p>
+                <p className="text-xs text-gray-700">Total: <strong>R$ 1.075,00</strong></p>
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">
