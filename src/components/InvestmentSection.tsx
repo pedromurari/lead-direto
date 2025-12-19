@@ -43,7 +43,7 @@ export const InvestmentSection = () => {
               </div>
               <div className="bg-white/30 rounded-lg p-2">
                 <p className="text-sm font-semibold text-idm-navy">
-                  💰 Economize mais de R$ 500!
+                  💰 Economize mais de R$ 600!
                 </p>
               </div>
             </div>
@@ -113,7 +113,7 @@ export const InvestmentSection = () => {
               <div className="text-2xl md:text-3xl font-bold text-idm-blue mb-1">1 + 14x R$ 109,90</div>
               <p className="text-gray-600 mb-2 text-sm">Parcelamento no boleto bancário</p>
               <div className="bg-gray-100 rounded-lg p-2 mb-3">
-                <p className="text-xs text-gray-700">Total: <strong>R$ 1.648,50</strong></p>
+                
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">
