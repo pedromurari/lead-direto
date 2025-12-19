@@ -35,7 +35,7 @@ export const InvestmentSection = () => {
               </div>
               <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2 md:mb-3">🎁 Investimento Especial</h3>
               <div className="mb-3 md:mb-4">
-                <div className="text-sm md:text-base text-idm-navy mb-1">A partir de</div>
+                
                 <div className="text-3xl md:text-4xl font-bold text-idm-navy mb-1">
                   R$ 997,00
                 </div>
@@ -110,10 +110,10 @@ export const InvestmentSection = () => {
             <div className="bg-white border-2 border-idm-blue rounded-2xl p-5 md:p-6 text-center shadow-lg">
               <FileText className="h-10 md:h-12 w-10 md:w-12 text-idm-blue mx-auto mb-3" />
               <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2">Boleto Parcelado</h3>
-              <div className="text-2xl md:text-3xl font-bold text-idm-blue mb-1">14x R$ 109,90</div>
+              <div className="text-2xl md:text-3xl font-bold text-idm-blue mb-1">1 + 14x R$ 109,90</div>
               <p className="text-gray-600 mb-2 text-sm">Parcelamento no boleto bancário</p>
               <div className="bg-gray-100 rounded-lg p-2 mb-3">
-                <p className="text-xs text-gray-700">Total: <strong>R$ 1.538,60</strong></p>
+                <p className="text-xs text-gray-700">R$ 1.648,50 <strong>R$ 1.538,60</strong></p>
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">
