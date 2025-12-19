@@ -119,6 +119,11 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
 
       setSubmitStatus('success');
       
+      // Disparar evento de conversão Lead no Meta Pixel
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead');
+      }
+      
       // Aguardar 1.5 segundos e redirecionar
       setTimeout(() => {
         window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Tenho%20interesse%20na%20oferta%20de%20Natal%20da%20Forma%C3%A7%C3%A3o%20do%20IDM!', '_blank');
