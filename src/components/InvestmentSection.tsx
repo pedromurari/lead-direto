@@ -23,7 +23,7 @@ export const InvestmentSection = () => {
               </div>
               <h3 className="text-lg md:text-xl font-bold text-gray-600 mb-2 md:mb-3">Valor Original</h3>
               <div className="text-2xl md:text-3xl font-bold text-gray-500 mb-2 line-through">
-                R$ 3.200,00
+                R$ 3.750,00
               </div>
               <p className="text-gray-600 text-sm">Preço sem os bônus exclusivos</p>
             </div>
