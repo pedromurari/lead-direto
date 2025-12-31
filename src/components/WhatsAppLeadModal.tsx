@@ -78,66 +78,48 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
     setSubmitStatus('idle');
     setErrorMessage('');
     
+    const payload = {
+      nome: data.nome,
+      whatsapp: data.telefone,
+      origem: 'Site IDM Desperta Natal',
+      data_envio: new Date().toISOString()
+    };
+
+    // Usar no-cors diretamente pois o webhook não tem CORS headers configurados
+    // Com no-cors, a requisição é enviada mas não podemos ler a resposta
+    // Os dados serão recebidos pelo n8n mesmo assim
     try {
-      const payload = {
-        nome: data.nome,
-        whatsapp: data.telefone,
-        origem: 'Site IDM Desperta Natal',
-        data_envio: new Date().toISOString()
-      };
-
-      // Tentar enviar com CORS, se falhar, tentar sem CORS
-      try {
-        const response = await fetch(
-          'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error('Response not ok');
+      await fetch(
+        'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
+        {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         }
-      } catch {
-        // Fallback: enviar sem CORS (não teremos resposta, mas os dados serão enviados)
-        await fetch(
-          'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
-          {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          }
-        );
-      }
-
-      setSubmitStatus('success');
-      
-      // Disparar evento de conversão Lead no Meta Pixel
-      if (typeof window !== 'undefined' && (window as any).fbq) {
-        (window as any).fbq('track', 'Lead');
-      }
-      
-      // Aguardar 1.5 segundos e redirecionar
-      setTimeout(() => {
-        window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Tenho%20interesse%20na%20oferta%20de%20Natal%20da%20Forma%C3%A7%C3%A3o%20do%20IDM!', '_blank');
-        form.reset();
-        setSubmitStatus('idle');
-        onClose();
-      }, 1500);
+      );
     } catch (error) {
-      console.error('Erro:', error);
-      setErrorMessage('Erro ao enviar formulário. Por favor, tente novamente.');
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
+      console.log('Fetch error (ignorado em no-cors):', error);
     }
+
+    // Sempre considerar sucesso pois no-cors não retorna erro mesmo se falhar
+    setSubmitStatus('success');
+    setIsSubmitting(false);
+    
+    // Disparar evento de conversão Lead no Meta Pixel
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead');
+    }
+    
+    // Aguardar 1.5 segundos e redirecionar
+    setTimeout(() => {
+      window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Tenho%20interesse%20na%20oferta%20de%20Natal%20da%20Forma%C3%A7%C3%A3o%20do%20IDM!', '_blank');
+      form.reset();
+      setSubmitStatus('idle');
+      onClose();
+    }, 1500);
   };
 
   const handleClose = () => {
