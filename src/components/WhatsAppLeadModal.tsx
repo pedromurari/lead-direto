@@ -77,49 +77,42 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
     setIsSubmitting(true);
     setSubmitStatus('idle');
     setErrorMessage('');
-    
-    const payload = {
-      nome: data.nome,
-      whatsapp: data.telefone,
-      origem: 'Site IDM Desperta Natal',
-      data_envio: new Date().toISOString()
-    };
 
-    // Usar no-cors diretamente pois o webhook não tem CORS headers configurados
-    // Com no-cors, a requisição é enviada mas não podemos ler a resposta
-    // Os dados serão recebidos pelo n8n mesmo assim
+    // Enviar para Google Sheets via Apps Script
+    const googleSheetsUrl = 'https://script.google.com/macros/s/AKfycbxlTQEMNojYPsB_G-oblIYo30X9c6RLZN5Qz6dk-GQrDuWaQDzMbaIV-XtbU0HX2hAd/exec';
+    
     try {
-      await fetch(
-        'https://idm-n8n.nzj83i.easypanel.host/webhook/onze-leads',
-        {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(payload),
-        }
-      );
+      // Enviar dados para Google Sheets (fire and forget com no-cors)
+      fetch(googleSheetsUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nome: data.nome,
+          whatsapp: phoneDigits,
+        }),
+      });
     } catch (error) {
-      console.log('Fetch error (ignorado em no-cors):', error);
+      console.log('Erro ao enviar para Google Sheets (ignorado):', error);
     }
 
-    // Sempre considerar sucesso pois no-cors não retorna erro mesmo se falhar
-    setSubmitStatus('success');
-    setIsSubmitting(false);
-    
     // Disparar evento de conversão Lead no Meta Pixel
     if (typeof window !== 'undefined' && (window as any).fbq) {
       (window as any).fbq('track', 'Lead');
     }
+
+    // Mostrar sucesso e aguardar 2 segundos antes de redirecionar
+    setSubmitStatus('success');
     
-    // Aguardar 1.5 segundos e redirecionar
     setTimeout(() => {
-      window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Tenho%20interesse%20na%20oferta%20de%20Natal%20da%20Forma%C3%A7%C3%A3o%20do%20IDM!', '_blank');
+      setIsSubmitting(false);
+      window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Quero%20receber%20informa%C3%A7%C3%B5es%20sobre%20a%20Forma%C3%A7%C3%A3o%20em%20Psican%C3%A1lise%20Integrativa%20do%20IDM.', '_blank');
       form.reset();
       setSubmitStatus('idle');
       onClose();
-    }, 1500);
+    }, 2000);
   };
 
   const handleClose = () => {
