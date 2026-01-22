@@ -7,10 +7,10 @@ export const InvestmentSection = () => {
           {/* Título da seção */}
           <div className="text-center mb-8 md:mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-idm-navy mb-4">
-              🎄 Investimento na sua <span className="text-idm-gold">Transformação</span> ✨
+              🎆 Investimento na sua <span className="text-idm-gold">Transformação</span> ✨
             </h2>
             <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto px-2">
-              🎁 <strong>Presente de Natal especial!</strong> Uma oportunidade única de investir em você mesmo e construir uma carreira de propósito
+              ✨ <strong>Comece 2026 com o pé direito!</strong> Uma oportunidade única de investir em você mesmo e construir uma carreira de propósito
             </p>
           </div>
 
@@ -28,12 +28,12 @@ export const InvestmentSection = () => {
               <p className="text-gray-600 text-sm">Preço sem os bônus exclusivos</p>
             </div>
 
-            {/* Preço promocional Natal */}
+            {/* Preço promocional Ano Novo */}
             <div className="bg-gradient-to-br from-idm-gold to-yellow-500 rounded-2xl p-5 md:p-6 text-center relative transform md:scale-105 shadow-xl">
               <div className="absolute top-3 right-3 bg-idm-navy text-white px-2 md:px-3 py-1 rounded-full text-xs font-bold">
-                🎄 OFERTA DE NATAL
+                🎆 OFERTA ANO NOVO
               </div>
-              <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2 md:mb-3">🎁 Investimento Especial</h3>
+              <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2 md:mb-3">✨ Investimento Especial</h3>
               <div className="mb-3 md:mb-4">
                 
                 <div className="text-3xl md:text-4xl font-bold text-idm-navy mb-1">
@@ -135,7 +135,7 @@ export const InvestmentSection = () => {
           {/* Benefícios inclusos */}
           <div className="bg-idm-light-blue rounded-2xl p-5 md:p-8 mb-6 md:mb-8">
             <h3 className="text-xl md:text-2xl font-bold text-idm-navy text-center mb-4 md:mb-6">
-              🎁 O que está incluído no seu investimento
+              ✨ O que está incluído no seu investimento
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
               <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left">
@@ -149,7 +149,7 @@ export const InvestmentSection = () => {
                 <CheckCircle className="mr-0 md:mr-3 h-7 w-7 text-idm-gold flex-shrink-0 mb-2 md:mb-0" />
                 <div>
                   <h4 className="font-bold text-idm-navy mb-1">Certificado reconhecido</h4>
-                  <p className="text-gray-700 text-sm">Validação oficial pelo MEC + Anhanguera</p>
+                  <p className="text-gray-700 text-sm">Extensão Universitária nas diretrizes do MEC</p>
                 </div>
               </div>
               <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left">
@@ -164,9 +164,9 @@ export const InvestmentSection = () => {
 
           {/* CTA final da seção - ÚNICO BOTÃO */}
           <div className="text-center px-4">
-            <CTAButton text="🎄 QUERO GARANTIR MINHA VAGA" />
+            <CTAButton text="🎆 QUERO GARANTIR MINHA VAGA" />
             <p className="text-sm md:text-base text-idm-navy mt-3 md:mt-4 font-semibold">
-              🎄 Oferta exclusiva de Natal - Garanta sua vaga agora! ⭐
+              ✨ Oferta especial de Ano Novo - Garanta sua vaga agora! 🎆
             </p>
           </div>
         </div>
