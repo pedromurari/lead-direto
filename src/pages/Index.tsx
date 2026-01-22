@@ -21,7 +21,7 @@ const Index = () => {
         <div className="container mx-auto px-4 text-center">
           <CTAButton 
             id="btn-whatsapp-1" 
-            text="🎁 GARANTA SEU DESCONTO DE NATAL" 
+            text="🎆 GARANTA SUA VAGA PARA 2026" 
           />
         </div>
       </div>
@@ -36,7 +36,7 @@ const Index = () => {
           <CTAButton 
             id="btn-whatsapp-2" 
             variant="white" 
-            text="🎄 FALAR COM CONSULTOR" 
+            text="✨ FALAR COM CONSULTOR" 
           />
         </div>
       </div>
@@ -48,12 +48,12 @@ const Index = () => {
       <div className="py-3 md:py-4 bg-idm-gold">
         <div className="container mx-auto px-4 text-center">
           <h3 className="text-lg md:text-2xl font-bold text-idm-navy mb-3 md:mb-4">
-            🎄 Não perca esta oportunidade de Natal! ⭐
+            🎆 Comece 2026 transformando sua vida! ✨
           </h3>
           <CTAButton 
             id="btn-whatsapp-3" 
             variant="navy" 
-            text="🎁 QUERO TRANSFORMAR MEU 2026" 
+            text="✨ QUERO TRANSFORMAR MEU 2026" 
           />
         </div>
       </div>

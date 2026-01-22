@@ -68,7 +68,7 @@ export const AboutSection = () => {
             </div>
           </div>
 
-          {/* NOVO: Card Parceria Anhanguera */}
+          {/* Card Parceria Faculdade */}
           <div className="bg-gradient-to-r from-blue-900 via-idm-navy to-blue-900 border-4 border-idm-gold rounded-2xl p-6 md:p-8 mb-10 shadow-2xl">
             <div className="flex flex-col md:flex-row items-center gap-6">
               <div className="flex-shrink-0">
@@ -78,15 +78,15 @@ export const AboutSection = () => {
               </div>
               <div className="text-center md:text-left flex-1">
                 <h3 className="text-2xl md:text-3xl font-bold text-idm-gold mb-3">
-                  🎓 Novidade: Parceria com Faculdade Anhanguera
+                  🎓 Curso nas Diretrizes do MEC - Extensão Universitária
                 </h3>
                 <p className="text-lg text-white mb-4">
-                  Nosso curso agora é uma <strong className="text-idm-gold">Extensão Universitária</strong> reconhecida pelo MEC, 
-                  em parceria oficial com a <strong className="text-idm-gold">Faculdade Anhanguera</strong>!
+                  Nosso curso é uma <strong className="text-idm-gold">Extensão Universitária</strong> nas diretrizes do MEC, 
+                  em parceria oficial com <strong className="text-idm-gold">Faculdade Parceira</strong>!
                 </p>
                 <p className="text-base text-gray-200 mb-4">
                   Isso significa que ao concluir sua formação, você receberá um certificado universitário com validade nacional, 
-                  emitido por uma das maiores instituições de ensino do Brasil.
+                  emitido por uma instituição de ensino de qualidade.
                 </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
@@ -95,11 +95,11 @@ export const AboutSection = () => {
                   </div>
                   <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
                     <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
-                    <span className="text-sm">Reconhecimento MEC</span>
+                    <span className="text-sm">Diretrizes do MEC</span>
                   </div>
                   <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
                     <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
-                    <span className="text-sm">Parceria Anhanguera</span>
+                    <span className="text-sm">Faculdade Parceira</span>
                   </div>
                   <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
                     <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
