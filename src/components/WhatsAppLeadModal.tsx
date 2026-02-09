@@ -79,24 +79,21 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
     setErrorMessage('');
 
     // Enviar para Google Sheets via Apps Script
-    const googleSheetsUrl = 'https://script.google.com/macros/s/AKfycbxlTQEMNojYPsB_G-oblIYo30X9c6RLZN5Qz6dk-GQrDuWaQDzMbaIV-XtbU0HX2hAd/exec';
+    const googleSheetsUrl = 'https://script.google.com/macros/s/AKfycbzEOTuC7CZZPAKfCShpYn8U-KozjsJzwekFhoxKF3Vv3Qc8BYLZ9McTtDIGPk2u2kCl/exec';
     
     try {
-      // O Apps Script do print lê dados via e.parameter (não JSON)
-      // Então enviamos como x-www-form-urlencoded com os nomes esperados: name / whatsapp
-      const body = new URLSearchParams({
-        name: data.nome,
-        whatsapp: phoneDigits,
-      }).toString();
-
-      // Fire-and-forget para não atrasar o redirecionamento
+      // Enviar como text/plain com JSON para evitar preflight CORS
       fetch(googleSheetsUrl, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'text/plain;charset=utf-8',
         },
-        body,
+        body: JSON.stringify({
+          nome: data.nome,
+          whatsapp: phoneDigits,
+          origem: 'Site IDM Desperta',
+          data_envio: new Date().toISOString(),
+        }),
       });
     } catch (error) {
       console.log('Erro ao enviar para Google Sheets (ignorado):', error);
