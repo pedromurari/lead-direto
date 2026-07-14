@@ -19,9 +19,9 @@ const Index = () => {
       {/* CTA intermediário */}
       <div className="py-2 md:py-3 bg-idm-light-blue">
         <div className="container mx-auto px-4 text-center">
-          <CTAButton 
-            id="btn-whatsapp-1" 
-            text="🎆 GARANTA SUA VAGA PARA 2026" 
+          <CTAButton
+            id="btn-whatsapp-1"
+            text="✨ GARANTA SUA VAGA"
           />
         </div>
       </div>
@@ -48,12 +48,12 @@ const Index = () => {
       <div className="py-3 md:py-4 bg-idm-gold">
         <div className="container mx-auto px-4 text-center">
           <h3 className="text-lg md:text-2xl font-bold text-idm-navy mb-3 md:mb-4">
-            🎆 Comece 2026 transformando sua vida! ✨
+            ✨ Comece agora a transformar sua vida!
           </h3>
-          <CTAButton 
-            id="btn-whatsapp-3" 
-            variant="navy" 
-            text="✨ QUERO TRANSFORMAR MEU 2026" 
+          <CTAButton
+            id="btn-whatsapp-3"
+            variant="navy"
+            text="✨ QUERO TRANSFORMAR MINHA VIDA"
           />
         </div>
       </div>

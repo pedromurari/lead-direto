@@ -17,10 +17,10 @@ export const HeroSection = () => {
       
       <div className="container mx-auto px-4 py-32 md:py-28 relative z-10">
         <div className="max-w-4xl mx-auto text-center text-white animate-fade-in">
-          {/* Badge Ano Novo */}
+          {/* Badge de destaque */}
           <div className="inline-flex items-center bg-idm-gold text-idm-navy px-4 py-2 md:px-6 md:py-2 rounded-full font-semibold mb-6 md:mb-8 text-sm md:text-base">
             <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-            🎆 ANO NOVO, VIDA NOVA ✨
+            ✨ FORMAÇÃO RECONHECIDA
           </div>
           
           {/* Headline Principal - melhor alinhamento */}
@@ -31,7 +31,7 @@ export const HeroSection = () => {
           
           {/* Subheadline */}
           <p className="text-lg md:text-2xl mb-6 md:mb-8 text-gray-200 leading-relaxed px-2 text-center">
-            🎆 <strong>Comece 2026 transformando sua vida!</strong> Dê o primeiro passo agora.<br />
+            <strong>Comece agora a transformar sua vida!</strong> Dê o primeiro passo hoje mesmo.<br />
             Porque <span className="text-idm-gold font-semibold">antes de cuidar do outro, você aprende a cuidar de si.</span>
           </p>
 
@@ -76,7 +76,7 @@ export const HeroSection = () => {
           {/* Chamada Principal */}
           <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 md:p-8 mb-8 md:mb-10 border border-white/20 mx-2">
             <h2 className="text-xl md:text-3xl font-bold mb-4 md:mb-6 text-idm-gold text-center">
-              🎆 Sua vida está prestes a tomar um novo rumo.
+              ✨ Sua vida está prestes a tomar um novo rumo.
             </h2>
             <p className="text-base md:text-xl mb-4 md:mb-6 leading-relaxed text-center">
               Descubra como acessar o poder do inconsciente, dominar suas emoções e transformar 
@@ -106,15 +106,15 @@ export const HeroSection = () => {
           
           {/* CTA Principal */}
           <div className="mb-6 md:mb-8 px-2">
-            <CTAButton 
-              id="btn-whatsapp-hero" 
-              text="🎆 QUERO TRANSFORMAR MEU 2026" 
+            <CTAButton
+              id="btn-whatsapp-hero"
+              text="✨ QUERO TRANSFORMAR MINHA VIDA"
             />
           </div>
-          
-          {/* Urgência */}
+
+          {/* Vagas */}
           <p className="text-base md:text-lg text-idm-gold font-semibold px-4">
-            ✨ Oferta especial de Ano Novo - Comece 2026 com o pé direito! 🎆
+            ✨ Vagas limitadas para a próxima turma!
           </p>
         </div>
       </div>

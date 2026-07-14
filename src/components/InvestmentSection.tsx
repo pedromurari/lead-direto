@@ -7,10 +7,10 @@ export const InvestmentSection = () => {
           {/* Título da seção */}
           <div className="text-center mb-8 md:mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-idm-navy mb-4">
-              🎆 Investimento na sua <span className="text-idm-gold">Transformação</span> ✨
+              Investimento na sua <span className="text-idm-gold">Transformação</span> ✨
             </h2>
             <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto px-2">
-              ✨ <strong>Comece 2026 com o pé direito!</strong> Uma oportunidade única de investir em você mesmo e construir uma carreira de propósito
+              Uma oportunidade única de investir em você mesmo e construir uma carreira de propósito
             </p>
           </div>
 
@@ -28,10 +28,10 @@ export const InvestmentSection = () => {
               <p className="text-gray-600 text-sm">Preço sem os bônus exclusivos</p>
             </div>
 
-            {/* Preço promocional Ano Novo */}
+            {/* Preço promocional */}
             <div className="bg-gradient-to-br from-idm-gold to-yellow-500 rounded-2xl p-5 md:p-6 text-center relative transform md:scale-105 shadow-xl">
               <div className="absolute top-3 right-3 bg-idm-navy text-white px-2 md:px-3 py-1 rounded-full text-xs font-bold">
-                🎆 OFERTA ANO NOVO
+                OFERTA ESPECIAL
               </div>
               <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2 md:mb-3">✨ Investimento Especial</h3>
               <div className="mb-3 md:mb-4">
@@ -164,9 +164,9 @@ export const InvestmentSection = () => {
 
           {/* CTA final da seção - ÚNICO BOTÃO */}
           <div className="text-center px-4">
-            <CTAButton text="🎆 QUERO GARANTIR MINHA VAGA" />
+            <CTAButton text="QUERO GARANTIR MINHA VAGA" />
             <p className="text-sm md:text-base text-idm-navy mt-3 md:mt-4 font-semibold">
-              ✨ Oferta especial de Ano Novo - Garanta sua vaga agora! 🎆
+              ✨ Vagas limitadas para a próxima turma!
             </p>
           </div>
         </div>
