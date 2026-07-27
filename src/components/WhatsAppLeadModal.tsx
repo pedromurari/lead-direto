@@ -23,14 +23,24 @@ import { Loader2, MessageCircle, CheckCircle, AlertCircle } from 'lucide-react';
 const formSchema = z.object({
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
   telefone: z.string().min(10, 'WhatsApp deve ter pelo menos 10 dígitos'),
+  website: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
+
+declare global {
+  interface Window {
+    fbq?: (action: string, event: string) => void;
+  }
+}
 
 interface WhatsAppLeadModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+const WHATSAPP_URL =
+  'https://wa.me/5511919434040?text=Ol%C3%A1!%20Quero%20receber%20informa%C3%A7%C3%B5es%20sobre%20a%20Forma%C3%A7%C3%A3o%20em%20Psican%C3%A1lise%20Integrativa%20do%20IDM.';
 
 // Função para aplicar máscara de telefone brasileiro
 const formatPhoneNumber = (value: string) => {
@@ -57,6 +67,7 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
     defaultValues: {
       nome: '',
       telefone: '',
+      website: '',
     },
   });
 
@@ -78,42 +89,51 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
     setSubmitStatus('idle');
     setErrorMessage('');
 
-    // Enviar para Google Sheets via Apps Script
-    const googleSheetsUrl = 'https://script.google.com/macros/s/AKfycbzEOTuC7CZZPAKfCShpYn8U-KozjsJzwekFhoxKF3Vv3Qc8BYLZ9McTtDIGPk2u2kCl/exec';
-    
     try {
-      // Enviar como text/plain com JSON para evitar preflight CORS
-      fetch(googleSheetsUrl, {
+      const query = new URLSearchParams(window.location.search);
+      const response = await fetch('/api/leads', {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           nome: data.nome,
           whatsapp: phoneDigits,
-          origem: 'Site IDM Desperta',
-          data_envio: new Date().toISOString(),
+          website: data.website,
+          attribution: {
+            utm_source: query.get('utm_source'),
+            utm_medium: query.get('utm_medium'),
+            utm_campaign: query.get('utm_campaign'),
+            utm_content: query.get('utm_content'),
+            utm_term: query.get('utm_term'),
+            fbclid: query.get('fbclid'),
+            gclid: query.get('gclid'),
+            referrer: document.referrer || null,
+            landing_page: window.location.href,
+          },
         }),
       });
+
+      if (!response.ok) {
+        const result = await response.json().catch(() => null);
+        throw new Error(result?.error ?? 'Falha ao registrar o lead.');
+      }
+
+      window.fbq?.('track', 'Lead');
+      setSubmitStatus('success');
+
+      setTimeout(() => {
+        form.reset();
+        window.location.assign(WHATSAPP_URL);
+      }, 1200);
     } catch (error) {
-      console.log('Erro ao enviar para Google Sheets (ignorado):', error);
-    }
-
-    // Disparar evento de conversão Lead no Meta Pixel
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Lead');
-    }
-
-    // Mostrar sucesso e aguardar 2 segundos antes de redirecionar
-    setSubmitStatus('success');
-    
-    setTimeout(() => {
+      console.error('Falha ao enviar lead:', error);
+      setErrorMessage(
+        'Não foi possível registrar seus dados. Tente novamente em instantes.',
+      );
+      setSubmitStatus('error');
       setIsSubmitting(false);
-      window.open('https://wa.me/5511919434040?text=Ol%C3%A1!%20Quero%20receber%20informa%C3%A7%C3%B5es%20sobre%20a%20Forma%C3%A7%C3%A3o%20em%20Psican%C3%A1lise%20Integrativa%20do%20IDM.', '_blank');
-      form.reset();
-      setSubmitStatus('idle');
-      onClose();
-    }, 2000);
+    }
   };
 
   const handleClose = () => {
@@ -141,6 +161,14 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
           
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <input
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute left-[-9999px]"
+                {...form.register('website')}
+              />
               <FormField
                 control={form.control}
                 name="nome"
@@ -188,7 +216,7 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
                 <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0" />
                   <span className="text-green-700 text-sm font-medium">
-                    ✅ Enviado com sucesso! Redirecionando para o WhatsApp...
+                    Lead registrado! Redirecionando para o WhatsApp...
                   </span>
                 </div>
               )}

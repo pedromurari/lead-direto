@@ -26,54 +26,37 @@ const notifications = [
 export const SocialProofNotifications = () => {
   const [currentNotification, setCurrentNotification] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [usedNotifications, setUsedNotifications] = useState<number[]>([]);
-
-  const getRandomNotification = () => {
-    let availableIndexes = [];
-    
-    // Se já usamos todas as notificações, resetar
-    if (usedNotifications.length >= notifications.length) {
-      setUsedNotifications([]);
-      availableIndexes = Array.from({ length: notifications.length }, (_, i) => i);
-    } else {
-      // Pegar apenas as não usadas
-      availableIndexes = Array.from({ length: notifications.length }, (_, i) => i)
-        .filter(index => !usedNotifications.includes(index));
-    }
-
-    const randomIndex = availableIndexes[Math.floor(Math.random() * availableIndexes.length)];
-    setUsedNotifications(prev => [...prev, randomIndex]);
-    return notifications[randomIndex];
-  };
-
-  const showNotification = () => {
-    const notification = getRandomNotification();
-    setCurrentNotification(notification);
-    setIsVisible(true);
-
-    // Esconder após 6 segundos
-    setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentNotification(null);
-      }, 300); // Tempo para a animação de fade out
-    }, 6000);
-  };
 
   useEffect(() => {
-    // Primeira notificação após 3 segundos
-    const initialTimeout = setTimeout(() => {
-      showNotification();
-    }, 3000);
+    let availableIndexes = notifications.map((_, index) => index);
+    let hideTimeout: ReturnType<typeof setTimeout>;
+    let clearTimeoutId: ReturnType<typeof setTimeout>;
 
-    // Depois a cada 30 segundos
-    const interval = setInterval(() => {
-      showNotification();
-    }, 30000);
+    const showNotification = () => {
+      if (availableIndexes.length === 0) {
+        availableIndexes = notifications.map((_, index) => index);
+      }
+
+      const position = Math.floor(Math.random() * availableIndexes.length);
+      const [notificationIndex] = availableIndexes.splice(position, 1);
+
+      setCurrentNotification(notifications[notificationIndex]);
+      setIsVisible(true);
+
+      hideTimeout = setTimeout(() => {
+        setIsVisible(false);
+        clearTimeoutId = setTimeout(() => setCurrentNotification(null), 300);
+      }, 6000);
+    };
+
+    const initialTimeout = setTimeout(showNotification, 3000);
+    const interval = setInterval(showNotification, 30000);
 
     return () => {
       clearTimeout(initialTimeout);
       clearInterval(interval);
+      clearTimeout(hideTimeout);
+      clearTimeout(clearTimeoutId);
     };
   }, []);
 

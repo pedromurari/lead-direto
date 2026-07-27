@@ -61,7 +61,7 @@ export const AboutSection = () => {
             {/* Logo do instituto */}
             <div className="text-center">
               <img 
-                src="/lovable-uploads/3751439a-de7d-4cfb-9d51-601a50a02ce3.png"
+                src="/images/3751439a-de7d-4cfb-9d51-601a50a02ce3.png"
                 alt="Instituto DespertaMENTE Logo"
                 className="max-w-xs md:max-w-xs max-w-32 mx-auto"
               />
@@ -114,7 +114,7 @@ export const AboutSection = () => {
           <div className="grid lg:grid-cols-2 gap-8 items-center mb-10">
             <div className="order-2 lg:order-1">
               <img 
-                src="/lovable-uploads/fbe2904a-d7b4-4247-8775-6d06582bb61e.png"
+                src="/images/fbe2904a-d7b4-4247-8775-6d06582bb61e.png"
                 alt="Certificado do Instituto DespertaMENTE"
                 className="w-full rounded-2xl shadow-2xl"
               />

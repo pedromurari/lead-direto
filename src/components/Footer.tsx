@@ -11,7 +11,7 @@ export const Footer = () => {
             <div>
               <div className="flex items-center mb-4">
                 <img 
-                  src="/lovable-uploads/8e88918f-e465-49cf-86d8-076a8bbbf39e.png"
+                  src="/images/8e88918f-e465-49cf-86d8-076a8bbbf39e.png"
                   alt="Instituto DespertaMENTE"
                   className="h-12 w-12 mr-3"
                 />
