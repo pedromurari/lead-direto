@@ -1,11 +1,103 @@
+import crypto from "node:crypto";
+
 const DEFAULT_ONZE_WEBHOOK_URL =
   "https://usqiyekfmwwnvkmkdlej.supabase.co/functions/v1/webhook-leads";
 const DEFAULT_FALLBACK_WEBHOOK_URL =
   "https://script.google.com/macros/s/AKfycbzEOTuC7CZZPAKfCShpYn8U-KozjsJzwekFhoxKF3Vv3Qc8BYLZ9McTtDIGPk2u2kCl/exec";
+const DEFAULT_META_PIXEL_ID = "1472969447740954";
+const META_GRAPH_VERSION = "v21.0";
 
 const normalizePhone = (value) => String(value ?? "").replace(/\D/g, "");
 const cleanText = (value, maxLength = 500) =>
   typeof value === "string" ? value.slice(0, maxLength) : null;
+const sha256 = (value) =>
+  crypto.createHash("sha256").update(value).digest("hex");
+
+const getClientIp = (request) => {
+  const forwardedFor = request.headers["x-forwarded-for"];
+  if (typeof forwardedFor === "string" && forwardedFor.length > 0) {
+    return forwardedFor.split(",")[0].trim();
+  }
+  return request.socket?.remoteAddress ?? null;
+};
+
+/**
+ * Envia o evento "Lead" para a Meta Conversions API, espelhando o Pixel do
+ * navegador (mesmo event_id) para deduplicação. Silencioso em caso de falha:
+ * a Conversions API é observabilidade de anúncios, não deve derrubar o lead.
+ */
+const sendMetaCapiEvents = async ({
+  whatsapp,
+  eventId,
+  fbp,
+  fbc,
+  clientIp,
+  userAgent,
+  eventSourceUrl,
+  utm,
+}) => {
+  const pixels = [
+    {
+      id: process.env.META_PIXEL_ID || DEFAULT_META_PIXEL_ID,
+      token: process.env.META_CAPI_ACCESS_TOKEN,
+    },
+  ].filter((pixel) => pixel.token);
+
+  if (pixels.length === 0) return;
+
+  const userData = {
+    ph: [sha256(`55${whatsapp}`)],
+    ...(clientIp ? { client_ip_address: clientIp } : {}),
+    ...(userAgent ? { client_user_agent: userAgent } : {}),
+    ...(fbp ? { fbp } : {}),
+    ...(fbc ? { fbc } : {}),
+  };
+
+  const eventPayload = {
+    data: [
+      {
+        event_name: "Lead",
+        event_time: Math.floor(Date.now() / 1000),
+        event_id: eventId,
+        action_source: "website",
+        event_source_url: eventSourceUrl || undefined,
+        user_data: userData,
+        custom_data: {
+          utm_source: utm.utm_source || undefined,
+          utm_medium: utm.utm_medium || undefined,
+          utm_campaign: utm.utm_campaign || undefined,
+        },
+      },
+    ],
+  };
+
+  await Promise.allSettled(
+    pixels.map(async ({ id, token }) => {
+      try {
+        const res = await fetch(
+          `https://graph.facebook.com/${META_GRAPH_VERSION}/${id}/events?access_token=${encodeURIComponent(token)}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(eventPayload),
+            signal: AbortSignal.timeout(8000),
+          },
+        );
+
+        if (!res.ok) {
+          console.error(
+            "Meta CAPI recusou o evento",
+            id,
+            res.status,
+            await res.text().catch(() => ""),
+          );
+        }
+      } catch (error) {
+        console.error("Falha ao enviar evento Meta CAPI", id, error);
+      }
+    }),
+  );
+};
 
 export default async function handler(request, response) {
   if (request.method !== "POST") {
@@ -58,6 +150,22 @@ export default async function handler(request, response) {
     landing_page: cleanText(attribution.landing_page, 1000),
   };
 
+  const capiPromise = sendMetaCapiEvents({
+    whatsapp: leadPayload.whatsapp,
+    eventId: cleanText(body?.event_id, 100) || crypto.randomUUID(),
+    fbp: cleanText(body?.fbp, 200),
+    fbc: cleanText(body?.fbc, 200),
+    clientIp: getClientIp(request),
+    userAgent: cleanText(request.headers["user-agent"], 500),
+    eventSourceUrl: leadPayload.landing_page,
+    utm: leadPayload,
+  });
+
+  const respond = async (status, payload) => {
+    await capiPromise;
+    return response.status(status).json(payload);
+  };
+
   try {
     if (webhookApiKey) {
       const upstreamResponse = await fetch(webhookUrl, {
@@ -94,7 +202,7 @@ export default async function handler(request, response) {
       });
 
       if (upstreamResponse.ok) {
-        return response.status(200).json({ success: true });
+        return respond(200, { success: true });
       }
 
       console.error("Onze Digital recusou o lead; usando contingência", {
@@ -121,7 +229,7 @@ export default async function handler(request, response) {
     });
 
     if (fallbackResponse.ok) {
-      return response.status(200).json({
+      return respond(200, {
         success: true,
         storage: "contingency",
       });
@@ -130,7 +238,7 @@ export default async function handler(request, response) {
     console.error("Falha na contingência de leads", error);
   }
 
-  return response.status(502).json({
+  return respond(502, {
     error: "Não foi possível registrar seus dados agora.",
   });
 }

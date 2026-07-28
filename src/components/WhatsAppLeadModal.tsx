@@ -19,6 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2, MessageCircle, CheckCircle, AlertCircle } from 'lucide-react';
+import { getAttribution, getCookie } from '@/lib/attribution';
 
 const formSchema = z.object({
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -30,7 +31,12 @@ type FormData = z.infer<typeof formSchema>;
 
 declare global {
   interface Window {
-    fbq?: (action: string, event: string) => void;
+    fbq?: (
+      action: string,
+      event: string,
+      params?: Record<string, unknown>,
+      options?: { eventID?: string },
+    ) => void;
   }
 }
 
@@ -90,7 +96,7 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
     setErrorMessage('');
 
     try {
-      const query = new URLSearchParams(window.location.search);
+      const eventId = crypto.randomUUID();
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: {
@@ -100,17 +106,10 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
           nome: data.nome,
           whatsapp: phoneDigits,
           website: data.website,
-          attribution: {
-            utm_source: query.get('utm_source'),
-            utm_medium: query.get('utm_medium'),
-            utm_campaign: query.get('utm_campaign'),
-            utm_content: query.get('utm_content'),
-            utm_term: query.get('utm_term'),
-            fbclid: query.get('fbclid'),
-            gclid: query.get('gclid'),
-            referrer: document.referrer || null,
-            landing_page: window.location.href,
-          },
+          event_id: eventId,
+          fbp: getCookie('_fbp'),
+          fbc: getCookie('_fbc'),
+          attribution: getAttribution(),
         }),
       });
 
@@ -119,7 +118,7 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
         throw new Error(result?.error ?? 'Falha ao registrar o lead.');
       }
 
-      window.fbq?.('track', 'Lead');
+      window.fbq?.('track', 'Lead', {}, { eventID: eventId });
       setSubmitStatus('success');
 
       setTimeout(() => {

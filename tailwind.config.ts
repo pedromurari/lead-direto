@@ -107,10 +107,12 @@ export default {
 				},
 				'pulse-glow': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px rgba(255, 167, 38, 0.3)'
+						transform: 'scale(1)',
+						boxShadow: '0 0 0 0 rgba(255, 167, 38, 0.45)'
 					},
 					'50%': {
-						boxShadow: '0 0 30px rgba(255, 167, 38, 0.6)'
+						transform: 'scale(1.03)',
+						boxShadow: '0 0 18px 4px rgba(255, 167, 38, 0.35)'
 					}
 				}
 			},
@@ -118,7 +120,7 @@ export default {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.6s ease-out',
-				'pulse-glow': 'pulse-glow 2s ease-in-out infinite'
+				'pulse-glow': 'pulse-glow 2.4s ease-in-out infinite'
 			}
 		}
 	},
