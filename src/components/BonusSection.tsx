@@ -1,4 +1,4 @@
-import { Gift, Users, Brain, Heart, CheckCircle, Sparkles, Bot } from 'lucide-react';
+import { Gift, Users, Brain, Heart, CheckCircle, Sparkles } from 'lucide-react';
 
 export const BonusSection = () => {
   const bonuses = [
@@ -25,12 +25,6 @@ export const BonusSection = () => {
       title: "Mentoria Reikiana com Elaine Ruivo",
       value: "R$ 197,00",
       description: "Sessão exclusiva de mentoria com especialista em Reiki"
-    },
-    {
-      icon: <Bot className="h-8 md:h-12 w-8 md:w-12 text-white" />,
-      title: "30 dias de IA Agente de Numerologia",
-      value: "R$ 39,90",
-      description: "Acesso à primeira IA Agente de Numerologia do Brasil"
     }
   ];
 
@@ -82,7 +76,7 @@ export const BonusSection = () => {
               Valor Total dos Bônus
             </h3>
             <div className="text-3xl md:text-5xl font-bold text-idm-navy mb-2 md:mb-3">
-              R$ 2.286,90
+              R$ 2.247,00
             </div>
             <div className="flex items-center justify-center mb-3 md:mb-4">
               <CheckCircle className="mr-2 h-5 w-5 text-idm-navy" />

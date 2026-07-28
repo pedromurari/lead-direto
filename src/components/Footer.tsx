@@ -78,6 +78,22 @@ export const Footer = () => {
                 <span>para transformar vidas</span>
               </div>
             </div>
+
+            <div className="flex justify-center mt-6">
+              <a
+                href="https://www.onzedigitalstrategy.com.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-black/30 border border-white/10 rounded-full px-4 py-2 text-xs md:text-sm text-gray-400 hover:border-idm-gold/40 transition-colors"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-idm-gold flex-shrink-0"></span>
+                <span>
+                  Desenvolvido com carinho pela{' '}
+                  <span className="text-idm-gold font-semibold">Onze Digital Strategy</span>
+                  <span className="text-gray-500"> · Grupo DespertaMENTE</span>
+                </span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
