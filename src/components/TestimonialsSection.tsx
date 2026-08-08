@@ -97,9 +97,12 @@ export const TestimonialsSection = () => {
                   className="relative mb-3 md:mb-4 group cursor-pointer"
                   onClick={() => handleVideoClick(testimonial.embedUrl)}
                 >
-                  <img 
+                  <img
                     src={testimonial.thumbnail}
                     alt={testimonial.name}
+                    loading="lazy"
+                    width={480}
+                    height={160}
                     className="w-full h-32 md:h-40 object-cover rounded-xl"
                   />
                   <div className="absolute inset-0 bg-black/50 rounded-xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -131,24 +134,6 @@ export const TestimonialsSection = () => {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* Números que Comprovam Nossa Excelência */}
-          <div className="text-center bg-gradient-to-r from-idm-gold to-yellow-500 rounded-2xl p-6 md:p-8">
-            <h3 className="text-xl md:text-2xl font-bold text-idm-navy mb-4 md:mb-6">
-              Números que Comprovam Nossa Excelência
-            </h3>
-            <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-              <div className="bg-white/20 rounded-lg px-3 py-2 md:px-4 md:py-3 text-idm-navy font-semibold text-xs md:text-sm">
-                🎓 5.000+ Alunos Formados
-              </div>
-              <div className="bg-white/20 rounded-lg px-3 py-2 md:px-4 md:py-3 text-idm-navy font-semibold text-xs md:text-sm">
-                ⭐ 98% de Satisfação
-              </div>
-              <div className="bg-white/20 rounded-lg px-3 py-2 md:px-4 md:py-3 text-idm-navy font-semibold text-xs md:text-sm">
-                🏆 Metodologia Comprovada
-              </div>
-            </div>
           </div>
         </div>
       </div>

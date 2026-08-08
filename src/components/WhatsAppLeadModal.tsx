@@ -149,7 +149,7 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
       <DialogContent className="sm:max-w-md bg-white border-idm-gold border-2 mx-2 sm:mx-4 w-[calc(100%-1rem)] sm:w-full">
         <DialogHeader>
           <DialogTitle className="text-xl md:text-2xl font-bold text-idm-navy text-center">
-            🎄 Fale com Nossa Equipe
+            ✨ Fale com Nossa Equipe
           </DialogTitle>
         </DialogHeader>
         

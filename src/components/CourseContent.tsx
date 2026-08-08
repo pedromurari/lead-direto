@@ -70,12 +70,7 @@ export const CourseContent = () => {
 
           {/* Tripé Psicanalítico */}
           <div className="mb-8 md:mb-10 text-center">
-            <img 
-              src="/images/d782be5c-ea03-4cb3-a054-f9294b1af9ed.png"
-              alt="Tripé Psicanalítico: Teoria, Análise e Supervisão"
-              className="max-w-full h-auto mx-auto rounded-2xl shadow-2xl"
-            />
-            <div className="mt-6 md:mt-8 bg-white rounded-2xl p-6 md:p-8 shadow-lg mx-2">
+            <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg mx-2">
               <h3 className="text-xl md:text-3xl font-bold text-idm-navy mb-3 md:mb-4">
                 O Tripé Psicanalítico
               </h3>

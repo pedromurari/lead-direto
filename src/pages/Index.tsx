@@ -9,6 +9,7 @@ import { TestimonialsSection } from '@/components/TestimonialsSection';
 import { Footer } from '@/components/Footer';
 import { CTAButton } from '@/components/CTAButton';
 import { SocialProofNotifications } from '@/components/SocialProofNotifications';
+import { StickyMobileCTA } from '@/components/StickyMobileCTA';
 
 const Index = () => {
   return (
@@ -29,18 +30,7 @@ const Index = () => {
       <CourseContent />
       <BonusSection />
       <InvestmentSection />
-      
-      {/* CTA intermediário */}
-      <div className="py-2 md:py-3 bg-idm-navy">
-        <div className="container mx-auto px-4 text-center">
-          <CTAButton 
-            id="btn-whatsapp-2" 
-            variant="white" 
-            text="✨ FALAR COM CONSULTOR" 
-          />
-        </div>
-      </div>
-      
+
       <AboutSection />
       <TestimonialsSection />
       
@@ -62,6 +52,9 @@ const Index = () => {
       
       {/* Notificações de prova social */}
       <SocialProofNotifications />
+
+      {/* CTA fixo no mobile */}
+      <StickyMobileCTA />
     </div>
   );
 };

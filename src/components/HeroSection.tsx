@@ -3,7 +3,7 @@ import { CheckCircle, Star, Clock, Award, GraduationCap, ShieldCheck } from 'luc
 
 export const HeroSection = () => {
   return (
-    <section className="relative bg-gradient-to-br from-idm-navy via-idm-blue to-idm-navy min-h-screen flex items-center">
+    <section className="relative bg-gradient-to-br from-idm-navy via-idm-blue to-idm-navy md:min-h-screen flex items-center">
       <div className="absolute inset-0 bg-black/20"></div>
       
       {/* Logo centralizado no topo com espaçamento ajustado */}
@@ -15,7 +15,7 @@ export const HeroSection = () => {
         />
       </div>
       
-      <div className="container mx-auto px-4 py-32 md:py-28 relative z-10">
+      <div className="container mx-auto px-4 py-24 md:py-28 relative z-10">
         <div className="max-w-4xl mx-auto text-center text-white animate-fade-in">
           {/* Badge de destaque */}
           <div className="inline-flex items-center bg-idm-gold text-idm-navy px-4 py-2 md:px-6 md:py-2 rounded-full font-semibold mb-6 md:mb-8 text-sm md:text-base">
@@ -49,7 +49,7 @@ export const HeroSection = () => {
                   🎓 CURSO NAS DIRETRIZES DO MEC
                 </h3>
                 <p className="text-lg md:text-xl text-white mb-4">
-                  Extensão Universitária em parceria com <strong>Faculdade Parceira</strong>
+                  Extensão Universitária em parceria com <strong>Anhanguera</strong>
                 </p>
                 <div className="grid grid-cols-2 gap-3 text-sm md:text-base">
                   <div className="flex items-center gap-2 text-white">
@@ -62,7 +62,7 @@ export const HeroSection = () => {
                   </div>
                   <div className="flex items-center gap-2 text-white">
                     <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
-                    <span>Faculdade Parceira</span>
+                    <span>Anhanguera</span>
                   </div>
                   <div className="flex items-center gap-2 text-white">
                     <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />

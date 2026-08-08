@@ -60,9 +60,10 @@ export const AboutSection = () => {
 
             {/* Logo do instituto */}
             <div className="text-center">
-              <img 
+              <img
                 src="/images/3751439a-de7d-4cfb-9d51-601a50a02ce3.png"
                 alt="Instituto DespertaMENTE Logo"
+                loading="lazy"
                 className="max-w-xs md:max-w-xs max-w-32 mx-auto"
               />
             </div>
@@ -82,7 +83,7 @@ export const AboutSection = () => {
                 </h3>
                 <p className="text-lg text-white mb-4">
                   Nosso curso é uma <strong className="text-idm-gold">Extensão Universitária</strong> nas diretrizes do MEC, 
-                  em parceria oficial com <strong className="text-idm-gold">Faculdade Parceira</strong>!
+                  em parceria oficial com <strong className="text-idm-gold">Anhanguera</strong>!
                 </p>
                 <p className="text-base text-gray-200 mb-4">
                   Isso significa que ao concluir sua formação, você receberá um certificado universitário com validade nacional, 
@@ -99,7 +100,7 @@ export const AboutSection = () => {
                   </div>
                   <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
                     <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
-                    <span className="text-sm">Faculdade Parceira</span>
+                    <span className="text-sm">Anhanguera</span>
                   </div>
                   <div className="flex items-center gap-2 text-white bg-white/10 rounded-lg p-2">
                     <ShieldCheck className="h-5 w-5 text-green-400 flex-shrink-0" />
@@ -113,9 +114,10 @@ export const AboutSection = () => {
           {/* Certificado */}
           <div className="grid lg:grid-cols-2 gap-8 items-center mb-10">
             <div className="order-2 lg:order-1">
-              <img 
+              <img
                 src="/images/fbe2904a-d7b4-4247-8775-6d06582bb61e.png"
                 alt="Certificado do Instituto DespertaMENTE"
+                loading="lazy"
                 className="w-full rounded-2xl shadow-2xl"
               />
             </div>

@@ -20,7 +20,28 @@ const notifications = [
   "💬 Silvia de Teresina chamou no WhatsApp para mais informações.",
   "🕒 Luana de Natal está negociando o plano de matrícula.",
   "✅ Viviane de Aracaju completou sua inscrição no curso.",
-  "💬 Thaís de Campo Grande está falando com o atendimento via WhatsApp."
+  "💬 Thaís de Campo Grande está falando com o atendimento via WhatsApp.",
+  "🎉 Patrícia de Manaus garantiu sua vaga na próxima turma.",
+  "📚 Rafael de Belém começou sua jornada na formação.",
+  "✅ Bruno de Vitória se matriculou no curso agora.",
+  "💬 Marcelo de Cuiabá chamou a equipe no WhatsApp.",
+  "🕒 Diego de Porto Velho está tirando dúvidas com a consultora.",
+  "✅ Vanessa de Uberlândia finalizou sua matrícula.",
+  "💬 Eduarda de Santos entrou em contato pelo WhatsApp.",
+  "🎉 Rodrigo de Niterói garantiu sua vaga agora há pouco.",
+  "🕒 Simone de Sorocaba está avaliando as formas de pagamento.",
+  "✅ Fabiana de Londrina realizou sua inscrição no curso.",
+  "💬 André de Joinville chamou no WhatsApp com dúvidas.",
+  "📚 Cristina de Caxias do Sul começou a formação hoje.",
+  "🕒 Leandro de Aracaju está negociando com o time de matrículas.",
+  "✅ Daniela de Feira de Santana se matriculou no curso.",
+  "💬 Otávio de Juiz de Fora entrou em contato via WhatsApp.",
+  "🎉 Sabrina de Blumenau garantiu sua vaga na turma.",
+  "🕒 Henrique de Anápolis está conversando com uma especialista.",
+  "✅ Mariana de Piracicaba completou sua inscrição agora.",
+  "💬 Cláudia de Petrolina chamou a equipe no WhatsApp.",
+  "📚 Igor de Montes Claros começou sua jornada na formação.",
+  "🕒 Rosana de Caruaru está avaliando a proposta com a equipe."
 ];
 
 export const SocialProofNotifications = () => {
@@ -63,7 +84,7 @@ export const SocialProofNotifications = () => {
   if (!currentNotification) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 md:bottom-6 md:left-6 z-50 max-w-xs md:max-w-sm">
+    <div className="fixed bottom-20 left-4 md:bottom-6 md:left-6 z-50 max-w-xs md:max-w-sm">
       <div
         className={`
           bg-white border border-border shadow-lg rounded-lg p-2 md:p-4

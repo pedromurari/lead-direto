@@ -11,20 +11,23 @@ export const BonusSection = () => {
     {
       icon: <Brain className="h-8 md:h-12 w-8 md:w-12 text-white" />,
       title: "Curso Essencial Practitioner em PNL",
-      value: "R$ 790,00", 
-      description: "Técnicas avançadas de Programação Neurolinguística"
+      value: "R$ 790,00",
+      description: "Técnicas avançadas de Programação Neurolinguística",
+      badge: "🔴 Encontros AO VIVO"
     },
     {
       icon: <Heart className="h-8 md:h-12 w-8 md:w-12 text-white" />,
       title: 'Workshop "Cicatrizes que Curam"',
-      value: "R$ 60,00",
-      description: "Metodologia exclusiva para transformar traumas em força"
+      value: "R$ 47,90",
+      description: "Metodologia exclusiva para transformar traumas em força",
+      badge: "🔴 Encontro AO VIVO"
     },
     {
       icon: <Sparkles className="h-8 md:h-12 w-8 md:w-12 text-white" />,
-      title: "Mentoria Reikiana com Elaine Ruivo",
-      value: "R$ 197,00",
-      description: "Sessão exclusiva de mentoria com especialista em Reiki"
+      title: "Workshop Reikiano com Elaine Ruivo",
+      value: "R$ 47,90",
+      description: "Workshop exclusivo com especialista em Reiki",
+      badge: "🔴 Encontro AO VIVO"
     }
   ];
 
@@ -63,6 +66,11 @@ export const BonusSection = () => {
                 <div className="text-xl md:text-2xl font-bold text-idm-gold mb-2 md:mb-3">
                   {bonus.value}
                 </div>
+                {bonus.badge && (
+                  <div className="inline-block bg-red-500/20 border border-red-400/40 text-red-100 text-[10px] md:text-xs font-semibold rounded-full px-2 md:px-3 py-1 mb-2">
+                    {bonus.badge}
+                  </div>
+                )}
                 <p className="text-gray-200 text-xs md:text-sm">
                   {bonus.description}
                 </p>
@@ -76,7 +84,7 @@ export const BonusSection = () => {
               Valor Total dos Bônus
             </h3>
             <div className="text-3xl md:text-5xl font-bold text-idm-navy mb-2 md:mb-3">
-              R$ 2.247,00
+              R$ 2.085,80
             </div>
             <div className="flex items-center justify-center mb-3 md:mb-4">
               <CheckCircle className="mr-2 h-5 w-5 text-idm-navy" />

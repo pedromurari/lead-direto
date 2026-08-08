@@ -11,7 +11,7 @@ interface CTAButtonProps {
 
 export const CTAButton = ({ 
   variant = 'default',
-  text = "🎁 GARANTA SEU DESCONTO DE NATAL",
+  text = "✨ QUERO GARANTIR MINHA VAGA",
   id
 }: CTAButtonProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
