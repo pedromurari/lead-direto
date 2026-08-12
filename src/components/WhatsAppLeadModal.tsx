@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -20,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Loader2, MessageCircle, CheckCircle, AlertCircle } from 'lucide-react';
 import { getAttribution, getCookie } from '@/lib/attribution';
+import { trackContact } from '@/lib/meta-tracking';
 
 const formSchema = z.object({
   nome: z.string().min(2, 'Nome deve ter pelo menos 2 caracteres'),
@@ -28,17 +29,6 @@ const formSchema = z.object({
 });
 
 type FormData = z.infer<typeof formSchema>;
-
-declare global {
-  interface Window {
-    fbq?: (
-      action: string,
-      event: string,
-      params?: Record<string, unknown>,
-      options?: { eventID?: string },
-    ) => void;
-  }
-}
 
 interface WhatsAppLeadModalProps {
   isOpen: boolean;
@@ -76,6 +66,13 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
       website: '',
     },
   });
+
+  // Sinal de intenção de contato (abriu o modal), mesmo que não chegue a
+  // preencher o formulário — dá ao Meta um evento de funil intermediário
+  // entre PageView e Lead.
+  useEffect(() => {
+    if (isOpen) trackContact();
+  }, [isOpen]);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
     const formatted = formatPhoneNumber(e.target.value);
