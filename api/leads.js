@@ -8,6 +8,15 @@ const DEFAULT_FALLBACK_WEBHOOK_URL =
 
 const normalizePhone = (value) => String(value ?? "").replace(/\D/g, "");
 
+// Rotula a oferta/campanha a partir do path atual (nao do first-touch salvo em
+// attribution), pra equipe de vendas saber de cara qual condicao foi prometida
+// ao lead antes de ligar/chamar no WhatsApp.
+const CAMPANHAS = {
+  "/condicao-especial": "Condição Especial (2ª e 3ª parcela 50% OFF)",
+  "/pague-em-30-dias": "Pague em 30 Dias (1º pagamento com carência)",
+};
+const campanhaLabel = (pathname) => CAMPANHAS[pathname] ?? null;
+
 /**
  * Envia o evento "Lead" para a Meta Conversions API, espelhando o Pixel do
  * navegador (mesmo event_id) para deduplicação. Silencioso em caso de falha:
@@ -66,6 +75,7 @@ export default async function handler(request, response) {
   const nome = String(body?.nome ?? "").trim();
   const whatsapp = normalizePhone(body?.whatsapp);
   const attribution = body?.attribution ?? {};
+  const campanha = campanhaLabel(cleanText(body?.pagina_atual, 100));
 
   if (nome.length < 2 || whatsapp.length < 10 || whatsapp.length > 11) {
     return response.status(400).json({
@@ -93,6 +103,7 @@ export default async function handler(request, response) {
     gclid: cleanText(attribution.gclid, 500),
     referrer: cleanText(attribution.referrer, 1000),
     landing_page: cleanText(attribution.landing_page, 1000),
+    campanha,
   };
 
   const capiPromise = sendLeadCapiEvent({
@@ -125,6 +136,7 @@ export default async function handler(request, response) {
           curso_interesse: "Formação em Psicanálise Clínica Integrativa",
           origem: leadPayload.origem,
           observacoes: [
+            leadPayload.campanha && `Campanha: ${leadPayload.campanha}`,
             leadPayload.utm_source &&
               `UTM Source: ${leadPayload.utm_source}`,
             leadPayload.utm_medium &&

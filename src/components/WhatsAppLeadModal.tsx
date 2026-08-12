@@ -106,6 +106,10 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
           event_id: eventId,
           fbp: getCookie('_fbp'),
           fbc: getCookie('_fbc'),
+          // Pagina atual (nao o first-touch salvo em attribution.landing_page) --
+          // e' o sinal confiavel de qual oferta/campanha o lead converteu, mesmo
+          // que o primeiro toque dele tenha sido em outra pagina antes.
+          pagina_atual: window.location.pathname,
           attribution: getAttribution(),
         }),
       });
