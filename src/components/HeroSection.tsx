@@ -1,7 +1,47 @@
 import { CTAButton } from './CTAButton';
 import { CheckCircle, Star, Clock, Award, GraduationCap, ShieldCheck } from 'lucide-react';
 
-export const HeroSection = () => {
+export type OfferVariant = 'default' | 'condicao-especial' | 'pague-em-30-dias';
+
+const HERO_COPY: Record<OfferVariant, { badge: string; subheadline: React.ReactNode; rodape: string }> = {
+  default: {
+    badge: '✨ FORMAÇÃO RECONHECIDA',
+    subheadline: (
+      <>
+        <strong>Comece agora a transformar sua vida!</strong> Dê o primeiro passo hoje mesmo.<br />
+        Porque <span className="text-idm-gold font-semibold">antes de cuidar do outro, você aprende a cuidar de si.</span>
+      </>
+    ),
+    rodape: '✨ Vagas limitadas para a próxima turma!',
+  },
+  'condicao-especial': {
+    badge: '🎁 CONDIÇÃO ESPECIAL DE PARCELAS',
+    subheadline: (
+      <>
+        <strong>Uma condição especial pros seus primeiros meses de formação!</strong><br />
+        <span className="text-idm-gold font-semibold">2ª e 3ª parcela com 50% OFF</span> pra quem se matricular durante a campanha.
+      </>
+    ),
+    rodape: '🎁 Condição especial válida só durante a campanha!',
+  },
+  'pague-em-30-dias': {
+    badge: '📝 ASSINE HOJE, PAGUE EM 30 DIAS',
+    subheadline: (
+      <>
+        <strong>Comece sua formação hoje mesmo!</strong><br />
+        <span className="text-idm-gold font-semibold">Seu primeiro pagamento só sai daqui a 30 dias.</span>
+      </>
+    ),
+    rodape: '📝 Condição exclusiva pra quem assina agora!',
+  },
+};
+
+interface HeroSectionProps {
+  variant?: OfferVariant;
+}
+
+export const HeroSection = ({ variant = 'default' }: HeroSectionProps) => {
+  const copy = HERO_COPY[variant];
   return (
     <section className="relative bg-gradient-to-br from-idm-navy via-idm-blue to-idm-navy md:min-h-screen flex items-center">
       <div className="absolute inset-0 bg-black/20"></div>
@@ -20,7 +60,7 @@ export const HeroSection = () => {
           {/* Badge de destaque */}
           <div className="inline-flex items-center bg-idm-gold text-idm-navy px-4 py-2 md:px-6 md:py-2 rounded-full font-semibold mb-6 md:mb-8 text-sm md:text-base">
             <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-            ✨ FORMAÇÃO RECONHECIDA
+            {copy.badge}
           </div>
           
           {/* Headline Principal - melhor alinhamento */}
@@ -31,8 +71,7 @@ export const HeroSection = () => {
           
           {/* Subheadline */}
           <p className="text-lg md:text-2xl mb-6 md:mb-8 text-gray-200 leading-relaxed px-2 text-center">
-            <strong>Comece agora a transformar sua vida!</strong> Dê o primeiro passo hoje mesmo.<br />
-            Porque <span className="text-idm-gold font-semibold">antes de cuidar do outro, você aprende a cuidar de si.</span>
+            {copy.subheadline}
           </p>
 
           {/* Card MEC + Anhanguera - DESTAQUE PRINCIPAL */}
@@ -114,7 +153,7 @@ export const HeroSection = () => {
 
           {/* Vagas */}
           <p className="text-base md:text-lg text-idm-gold font-semibold px-4">
-            ✨ Vagas limitadas para a próxima turma!
+            {copy.rodape}
           </p>
         </div>
       </div>

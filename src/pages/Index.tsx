@@ -1,9 +1,12 @@
 
-import { HeroSection } from '@/components/HeroSection';
+import { useEffect } from 'react';
+import { HeroSection, type OfferVariant } from '@/components/HeroSection';
 import { CourseOverview } from '@/components/CourseOverview';
 import { CourseContent } from '@/components/CourseContent';
 import { BonusSection } from '@/components/BonusSection';
 import { InvestmentSection } from '@/components/InvestmentSection';
+import { OfferParcelasEspeciais } from '@/components/OfferParcelasEspeciais';
+import { OfferPagueEm30Dias } from '@/components/OfferPagueEm30Dias';
 import { AboutSection } from '@/components/AboutSection';
 import { TestimonialsSection } from '@/components/TestimonialsSection';
 import { Footer } from '@/components/Footer';
@@ -11,12 +14,31 @@ import { CTAButton } from '@/components/CTAButton';
 import { SocialProofNotifications } from '@/components/SocialProofNotifications';
 import { StickyMobileCTA } from '@/components/StickyMobileCTA';
 
-const Index = () => {
+const TITULOS: Record<OfferVariant, string> = {
+  default: 'Instituto DespertaMENTE - Formação em Psicanálise Clínica Integrativa',
+  'condicao-especial': 'Condição Especial nas Parcelas - Formação em Psicanálise | Instituto DespertaMENTE',
+  'pague-em-30-dias': 'Assine Hoje, Pague em 30 Dias - Formação em Psicanálise | Instituto DespertaMENTE',
+};
+
+interface IndexProps {
+  variant?: OfferVariant;
+}
+
+const Index = ({ variant = 'default' }: IndexProps) => {
+  useEffect(() => {
+    document.title = TITULOS[variant];
+  }, [variant]);
+
+  const OfferSection =
+    variant === 'condicao-especial' ? OfferParcelasEspeciais :
+    variant === 'pague-em-30-dias' ? OfferPagueEm30Dias :
+    InvestmentSection;
+
   return (
     <div className="min-h-screen bg-white font-poppins">
-      <HeroSection />
+      <HeroSection variant={variant} />
       <CourseOverview />
-      
+
       {/* CTA intermediário */}
       <div className="py-2 md:py-3 bg-idm-light-blue">
         <div className="container mx-auto px-4 text-center">
@@ -26,14 +48,14 @@ const Index = () => {
           />
         </div>
       </div>
-      
+
       <CourseContent />
       <BonusSection />
-      <InvestmentSection />
+      <OfferSection />
 
       <AboutSection />
       <TestimonialsSection />
-      
+
       {/* CTA final */}
       <div className="py-3 md:py-4 bg-idm-gold">
         <div className="container mx-auto px-4 text-center">
@@ -47,9 +69,9 @@ const Index = () => {
           />
         </div>
       </div>
-      
+
       <Footer />
-      
+
       {/* Notificações de prova social */}
       <SocialProofNotifications />
 

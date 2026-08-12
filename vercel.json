@@ -4,6 +4,8 @@
     { "source": "/gratuito24/(.*)", "destination": "https://gratuito24.vercel.app/$1" },
 
     { "source": "/obrigado24", "destination": "https://obrigado24.vercel.app" },
-    { "source": "/obrigado24/(.*)", "destination": "https://obrigado24.vercel.app/$1" }
+    { "source": "/obrigado24/(.*)", "destination": "https://obrigado24.vercel.app/$1" },
+
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
