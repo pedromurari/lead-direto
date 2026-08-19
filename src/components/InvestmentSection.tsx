@@ -37,13 +37,13 @@ export const InvestmentSection = () => {
               <div className="mb-3 md:mb-4">
                 
                 <div className="text-3xl md:text-4xl font-bold text-idm-navy mb-1">
-                  R$ 997,00
+                  R$ 1.500,00
                 </div>
                 <div className="text-sm md:text-base text-idm-navy">à vista no PIX</div>
               </div>
               <div className="bg-white/30 rounded-lg p-2">
                 <p className="text-sm font-semibold text-idm-navy">
-                  💰 Economize mais de R$ 600!
+                  💰 Economize mais de R$ 2.200!
                 </p>
               </div>
             </div>
@@ -60,10 +60,10 @@ export const InvestmentSection = () => {
               </div>
               <Banknote className="h-10 md:h-12 w-10 md:w-12 text-white mx-auto mb-3 mt-2" />
               <h3 className="text-lg md:text-xl font-bold mb-2">PIX À Vista</h3>
-              <div className="text-3xl md:text-4xl font-bold mb-2">R$ 997,00</div>
+              <div className="text-3xl md:text-4xl font-bold mb-2">R$ 1.500,00</div>
               <p className="mb-2 text-sm opacity-90">Pagamento à vista no PIX</p>
               <div className="bg-white/20 rounded-lg p-2 mb-3">
-                <p className="text-sm font-semibold">💰 Economize mais de R$ 500!</p>
+                <p className="text-sm font-semibold">💰 Economize mais de R$ 2.200!</p>
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">
@@ -85,10 +85,10 @@ export const InvestmentSection = () => {
             <div className="bg-white border-2 border-idm-gold rounded-2xl p-5 md:p-6 text-center shadow-lg">
               <CreditCard className="h-10 md:h-12 w-10 md:w-12 text-idm-gold mx-auto mb-3" />
               <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2">Cartão de Crédito</h3>
-              <div className="text-2xl md:text-3xl font-bold text-idm-gold mb-1">12x R$ 109,39</div>
+              <div className="text-2xl md:text-3xl font-bold text-idm-gold mb-1">12x R$ 125,00</div>
               <p className="text-gray-600 mb-2 text-sm">Parcelado no Cartão de Crédito </p>
               <div className="bg-gray-100 rounded-lg p-2 mb-3">
-                <p className="text-xs text-gray-700">Total: <strong>R$ 1.318,80</strong></p>
+                <p className="text-xs text-gray-700">Total: <strong>R$ 1.500,00</strong></p>
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">
@@ -110,10 +110,10 @@ export const InvestmentSection = () => {
             <div className="bg-white border-2 border-idm-blue rounded-2xl p-5 md:p-6 text-center shadow-lg">
               <FileText className="h-10 md:h-12 w-10 md:w-12 text-idm-blue mx-auto mb-3" />
               <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2">Boleto Parcelado</h3>
-              <div className="text-2xl md:text-3xl font-bold text-idm-blue mb-1">1 + 14x R$ 109,90</div>
+              <div className="text-2xl md:text-3xl font-bold text-idm-blue mb-1">15x R$ 150,00</div>
               <p className="text-gray-600 mb-2 text-sm">Parcelamento no boleto bancário</p>
               <div className="bg-gray-100 rounded-lg p-2 mb-3">
-                <p className="text-xs text-gray-700">Total: <strong>R$ 1.648,50</strong></p>
+                <p className="text-xs text-gray-700">Total: <strong>R$ 2.250,00</strong></p>
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">

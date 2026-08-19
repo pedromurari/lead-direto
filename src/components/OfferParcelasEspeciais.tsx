@@ -22,7 +22,7 @@ export const OfferParcelasEspeciais = () => {
               <div className="bg-idm-navy text-white w-10 h-10 rounded-full flex items-center justify-center font-bold mx-auto mb-3">1</div>
               <h3 className="text-base md:text-lg font-bold text-idm-navy mb-3">1ª Parcela</h3>
               <Wallet className="h-10 w-10 text-idm-navy mx-auto mb-3" />
-              <div className="text-xl md:text-2xl font-bold text-gray-700 mb-1">R$ 109,90</div>
+              <div className="text-xl md:text-2xl font-bold text-gray-700 mb-1">R$ 150,00</div>
               <p className="text-gray-600 text-sm">Valor normal</p>
             </div>
             <div className="bg-gradient-to-br from-idm-gold to-yellow-500 rounded-2xl p-5 md:p-6 text-center relative transform md:scale-105 shadow-xl">
@@ -30,14 +30,14 @@ export const OfferParcelasEspeciais = () => {
               <h3 className="text-base md:text-lg font-bold text-idm-navy mb-3">2ª Parcela</h3>
               <Percent className="h-10 w-10 text-idm-navy mx-auto mb-3" />
               <div className="text-2xl md:text-3xl font-bold text-idm-navy mb-1">50% OFF</div>
-              <p className="text-idm-navy text-sm font-semibold">R$ 54,95</p>
+              <p className="text-idm-navy text-sm font-semibold">R$ 75,00</p>
             </div>
             <div className="bg-gradient-to-br from-idm-gold to-yellow-500 rounded-2xl p-5 md:p-6 text-center relative transform md:scale-105 shadow-xl">
               <div className="bg-idm-navy text-white w-10 h-10 rounded-full flex items-center justify-center font-bold mx-auto mb-3">3</div>
               <h3 className="text-base md:text-lg font-bold text-idm-navy mb-3">3ª Parcela</h3>
               <Percent className="h-10 w-10 text-idm-navy mx-auto mb-3" />
               <div className="text-2xl md:text-3xl font-bold text-idm-navy mb-1">50% OFF</div>
-              <p className="text-idm-navy text-sm font-semibold">R$ 54,95</p>
+              <p className="text-idm-navy text-sm font-semibold">R$ 75,00</p>
             </div>
           </div>
 
