@@ -106,19 +106,19 @@ export const InvestmentSection = () => {
               </ul>
             </div>
 
-            {/* Card Boleto Parcelado */}
+            {/* Card Boleto/Cartão Recorrente */}
             <div className="bg-white border-2 border-idm-blue rounded-2xl p-5 md:p-6 text-center shadow-lg">
               <FileText className="h-10 md:h-12 w-10 md:w-12 text-idm-blue mx-auto mb-3" />
-              <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2">Boleto Parcelado</h3>
+              <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2">Boleto ou Cartão Recorrente</h3>
               <div className="text-2xl md:text-3xl font-bold text-idm-blue mb-1">15x R$ 150,00</div>
-              <p className="text-gray-600 mb-2 text-sm">Parcelamento no boleto bancário</p>
+              <p className="text-gray-600 mb-2 text-sm">No boleto bancário ou cartão recorrente</p>
               <div className="bg-gray-100 rounded-lg p-2 mb-3">
                 <p className="text-xs text-gray-700">Total: <strong>R$ 2.250,00</strong></p>
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">
                   <CheckCircle className="mr-2 h-4 w-4 text-green-500 flex-shrink-0" />
-                  <span className="text-xs">Sem cartão de crédito</span>
+                  <span className="text-xs">Boleto ou cartão, você escolhe</span>
                 </li>
                 <li className="flex items-center">
                   <CheckCircle className="mr-2 h-4 w-4 text-green-500 flex-shrink-0" />

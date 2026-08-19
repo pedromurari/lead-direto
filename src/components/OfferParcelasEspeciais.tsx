@@ -12,7 +12,7 @@ export const OfferParcelasEspeciais = () => {
               Uma Condição Especial pros seus <span className="text-idm-gold">Primeiros Meses</span> de Formação
             </h2>
             <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto px-2">
-              Pra quem se matricular durante essa campanha, preparamos um desconto exclusivo nas primeiras parcelas do boleto
+              Pra quem se matricular durante essa campanha, preparamos um desconto exclusivo nas primeiras parcelas do boleto ou cartão recorrente
             </p>
           </div>
 
@@ -44,7 +44,7 @@ export const OfferParcelasEspeciais = () => {
           <div className="flex items-center gap-3 bg-idm-light-blue rounded-2xl p-4 md:p-5 mb-6 md:mb-8 max-w-3xl mx-auto">
             <FileText className="h-6 w-6 text-idm-navy flex-shrink-0" />
             <p className="text-sm md:text-base text-idm-navy">
-              Condição especial no boleto para matrículas realizadas <strong>durante a campanha.</strong>
+              Condição especial no boleto ou cartão recorrente para matrículas realizadas <strong>durante a campanha.</strong>
             </p>
           </div>
 
