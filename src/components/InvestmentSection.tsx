@@ -85,10 +85,10 @@ export const InvestmentSection = () => {
             <div className="bg-white border-2 border-idm-gold rounded-2xl p-5 md:p-6 text-center shadow-lg">
               <CreditCard className="h-10 md:h-12 w-10 md:w-12 text-idm-gold mx-auto mb-3" />
               <h3 className="text-lg md:text-xl font-bold text-idm-navy mb-2">Cartão de Crédito</h3>
-              <div className="text-2xl md:text-3xl font-bold text-idm-gold mb-1">12x R$ 125,00</div>
+              <div className="text-2xl md:text-3xl font-bold text-idm-gold mb-1">12x R$ 150,00</div>
               <p className="text-gray-600 mb-2 text-sm">Parcelado no Cartão de Crédito </p>
               <div className="bg-gray-100 rounded-lg p-2 mb-3">
-                <p className="text-xs text-gray-700">Total: <strong>R$ 1.500,00</strong></p>
+                <p className="text-xs text-gray-700">Total: <strong>R$ 1.800,00</strong></p>
               </div>
               <ul className="text-left space-y-1">
                 <li className="flex items-center">
