@@ -3,6 +3,8 @@ import { sendMetaCapiEvent, sha256, cleanText, getClientIp } from "../lib/meta-c
 
 const DEFAULT_ONZE_WEBHOOK_URL =
   "https://usqiyekfmwwnvkmkdlej.supabase.co/functions/v1/webhook-leads";
+const DEFAULT_TIME_COMERCIAL_WEBHOOK_URL =
+  "https://usqiyekfmwwnvkmkdlej.supabase.co/functions/v1/webhook-leads-time-comercial";
 const DEFAULT_FALLBACK_WEBHOOK_URL =
   "https://script.google.com/macros/s/AKfycbzEOTuC7CZZPAKfCShpYn8U-KozjsJzwekFhoxKF3Vv3Qc8BYLZ9McTtDIGPk2u2kCl/exec";
 
@@ -10,12 +12,18 @@ const normalizePhone = (value) => String(value ?? "").replace(/\D/g, "");
 
 // Rotula a oferta/campanha a partir do path atual (nao do first-touch salvo em
 // attribution), pra equipe de vendas saber de cara qual condicao foi prometida
-// ao lead antes de ligar/chamar no WhatsApp.
+// ao lead antes de ligar/chamar no WhatsApp. Paginas fora desse mapa (a padrao,
+// "/") caem como campanha "Padrao" no canal Direto do Time Comercial.
 const CAMPANHAS = {
   "/condicao-especial": "Condição Especial (2ª e 3ª parcela 50% OFF)",
   "/pague-em-30-dias": "Pague em 30 Dias (1º pagamento com carência)",
 };
 const campanhaLabel = (pathname) => CAMPANHAS[pathname] ?? null;
+
+// Nome exato da campanha em `time_comercial_campanhas` (canal='Direto') --
+// so a pagina padrao roda pelo Time Comercial por enquanto; as outras 2
+// continuam em Leads Diretos (Pipeline.tsx) ate serem migradas tambem.
+const CAMPANHA_PADRAO_TIME_COMERCIAL = "Padrão — Formação em Psicanálise";
 
 /**
  * Envia o evento "Lead" para a Meta Conversions API, espelhando o Pixel do
@@ -83,8 +91,14 @@ export default async function handler(request, response) {
     });
   }
 
-  const webhookUrl =
-    process.env.ONZE_WEBHOOK_URL ?? DEFAULT_ONZE_WEBHOOK_URL;
+  // Pagina padrao ("/") entra pelo Funil do Time Comercial (canal Direto), ja
+  // disponivel pros vendedores pegarem. Condicao Especial e Pague em 30 Dias
+  // continuam em Leads Diretos ate serem migradas tambem.
+  const isPadrao = campanha === null;
+  const webhookUrl = isPadrao
+    ? process.env.ONZE_TIME_COMERCIAL_WEBHOOK_URL ??
+      DEFAULT_TIME_COMERCIAL_WEBHOOK_URL
+    : process.env.ONZE_WEBHOOK_URL ?? DEFAULT_ONZE_WEBHOOK_URL;
   const webhookApiKey = process.env.ONZE_WEBHOOK_API_KEY;
   const fallbackWebhookUrl =
     process.env.LEADS_FALLBACK_WEBHOOK_URL ?? DEFAULT_FALLBACK_WEBHOOK_URL;
@@ -122,6 +136,38 @@ export default async function handler(request, response) {
     return response.status(status).json(payload);
   };
 
+  const observacoes = [
+    leadPayload.campanha && `Campanha: ${leadPayload.campanha}`,
+    leadPayload.utm_source && `UTM Source: ${leadPayload.utm_source}`,
+    leadPayload.utm_medium && `UTM Medium: ${leadPayload.utm_medium}`,
+    leadPayload.utm_campaign && `UTM Campaign: ${leadPayload.utm_campaign}`,
+    leadPayload.utm_content && `UTM Content: ${leadPayload.utm_content}`,
+    leadPayload.utm_term && `UTM Term: ${leadPayload.utm_term}`,
+    leadPayload.fbclid && `FBCLID: ${leadPayload.fbclid}`,
+    leadPayload.gclid && `GCLID: ${leadPayload.gclid}`,
+    leadPayload.referrer && `Referência: ${leadPayload.referrer}`,
+    leadPayload.landing_page && `Página: ${leadPayload.landing_page}`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const webhookBody = isPadrao
+    ? {
+        nome: leadPayload.nome,
+        whatsapp: leadPayload.whatsapp,
+        curso_interesse: "Formação em Psicanálise Clínica Integrativa",
+        canal: "Direto",
+        campanha: CAMPANHA_PADRAO_TIME_COMERCIAL,
+        observacoes,
+      }
+    : {
+        nome: leadPayload.nome,
+        whatsapp: leadPayload.whatsapp,
+        curso_interesse: "Formação em Psicanálise Clínica Integrativa",
+        origem: leadPayload.origem,
+        observacoes,
+      };
+
   try {
     if (webhookApiKey) {
       const upstreamResponse = await fetch(webhookUrl, {
@@ -130,31 +176,7 @@ export default async function handler(request, response) {
           "Content-Type": "application/json",
           "X-API-Key": webhookApiKey,
         },
-        body: JSON.stringify({
-          nome: leadPayload.nome,
-          whatsapp: leadPayload.whatsapp,
-          curso_interesse: "Formação em Psicanálise Clínica Integrativa",
-          origem: leadPayload.origem,
-          observacoes: [
-            leadPayload.campanha && `Campanha: ${leadPayload.campanha}`,
-            leadPayload.utm_source &&
-              `UTM Source: ${leadPayload.utm_source}`,
-            leadPayload.utm_medium &&
-              `UTM Medium: ${leadPayload.utm_medium}`,
-            leadPayload.utm_campaign &&
-              `UTM Campaign: ${leadPayload.utm_campaign}`,
-            leadPayload.utm_content &&
-              `UTM Content: ${leadPayload.utm_content}`,
-            leadPayload.utm_term && `UTM Term: ${leadPayload.utm_term}`,
-            leadPayload.fbclid && `FBCLID: ${leadPayload.fbclid}`,
-            leadPayload.gclid && `GCLID: ${leadPayload.gclid}`,
-            leadPayload.referrer && `Referência: ${leadPayload.referrer}`,
-            leadPayload.landing_page &&
-              `Página: ${leadPayload.landing_page}`,
-          ]
-            .filter(Boolean)
-            .join("\n"),
-        }),
+        body: JSON.stringify(webhookBody),
         signal: AbortSignal.timeout(10000),
       });
 
