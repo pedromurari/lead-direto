@@ -124,9 +124,9 @@ export const HeroSection = ({ variant = 'default' }: HeroSectionProps) => {
             
             {/* Features rápidas */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
-              <div className="flex items-center justify-center md:justify-start text-xs md:text-base">
+              <div className="col-span-2 flex items-center justify-center md:justify-start text-xs md:text-base">
                 <CheckCircle className="mr-1 md:mr-2 h-4 w-4 md:h-5 md:w-5 text-idm-gold flex-shrink-0" />
-                <span>100% Online</span>
+                <span>Ao vivo (Meet) + Gravação + Área de Membros</span>
               </div>
               <div className="flex items-center justify-center md:justify-start text-xs md:text-base">
                 <Clock className="mr-1 md:mr-2 h-4 w-4 md:h-5 md:w-5 text-idm-gold flex-shrink-0" />

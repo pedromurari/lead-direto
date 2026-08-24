@@ -122,9 +122,17 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
       window.fbq?.('track', 'Lead', {}, { eventID: eventId });
       setSubmitStatus('success');
 
+      // Pagina padrao passa pela pagina-ponte /obrigado (video/copy + bonus de
+      // matricula rapida) antes do WhatsApp. Condicao Especial e Pague em 30
+      // Dias continuam indo direto -- rodando so na padrao por enquanto.
+      const paginasSemPonte = ['/condicao-especial', '/pague-em-30-dias'];
+      const destino = paginasSemPonte.includes(window.location.pathname)
+        ? WHATSAPP_URL
+        : '/obrigado';
+
       setTimeout(() => {
         form.reset();
-        window.location.assign(WHATSAPP_URL);
+        window.location.assign(destino);
       }, 1200);
     } catch (error) {
       console.error('Falha ao enviar lead:', error);
