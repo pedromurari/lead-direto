@@ -119,16 +119,20 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
         throw new Error(result?.error ?? 'Falha ao registrar o lead.');
       }
 
+      const result = await response.json().catch(() => null);
+
       window.fbq?.('track', 'Lead', {}, { eventID: eventId });
       setSubmitStatus('success');
 
-      // Pagina padrao passa pela pagina-ponte /obrigado (video/copy + bonus de
-      // matricula rapida) antes do WhatsApp. Condicao Especial e Pague em 30
-      // Dias continuam indo direto -- rodando so na padrao por enquanto.
+      // Pagina-ponte /obrigado (video/copy + bonus de matricula rapida) fica em
+      // standby ate o video e a copy do beneficio ficarem prontos -- PAGINA_PONTE_ATIVA
+      // = false manda todo mundo direto pro WhatsApp, igual as outras 2 paginas.
+      // Trocar pra true (e nada mais) quando o conteudo estiver fechado.
+      const PAGINA_PONTE_ATIVA = false;
       const paginasSemPonte = ['/condicao-especial', '/pague-em-30-dias'];
-      const destino = paginasSemPonte.includes(window.location.pathname)
+      const destino = !PAGINA_PONTE_ATIVA || paginasSemPonte.includes(window.location.pathname)
         ? WHATSAPP_URL
-        : '/obrigado';
+        : `/obrigado${result?.leadId ? `?lead=${result.leadId}` : ''}`;
 
       setTimeout(() => {
         form.reset();

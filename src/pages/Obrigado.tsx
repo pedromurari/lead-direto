@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle, Clock, MessageCircle } from 'lucide-react';
+import { CheckCircle, Clock, Loader2, MessageCircle } from 'lucide-react';
 import { Footer } from '@/components/Footer';
 
-const WHATSAPP_URL =
-  'https://wa.me/5511919434040?text=Ol%C3%A1!%20Acabei%20de%20me%20cadastrar%20e%20quero%20falar%20com%20a%20equipe%20agora.';
+const WHATSAPP_TELEFONE_PADRAO = '5511919434040';
+const WHATSAPP_MENSAGEM =
+  'Olá! Acabei de me cadastrar e quero falar com a equipe agora.';
+const whatsappUrl = (telefone: string) =>
+  `https://wa.me/${telefone}?text=${encodeURIComponent(WHATSAPP_MENSAGEM)}`;
 
 // Prazo do bônus de matrícula rápida — mesma janela usada pelo SDR (horário
 // comercial seg-sáb 9h-18h, ver leads-ia-followup no repo onze-digital-main),
@@ -11,6 +14,13 @@ const WHATSAPP_URL =
 // corridas a partir do cadastro, o horário comercial é só sobre quando a
 // equipe consegue atender.
 const BONUS_PRAZO_HORAS = 24;
+
+// Tentativas de atribuir um vendedor via rodízio antes de desistir e cair no
+// número genérico -- o usuário pediu pra priorizar acertar o rodízio (afeta
+// comissão) em vez de liberar o botão na primeira falha, mas o lead não pode
+// ficar travado pra sempre se o Supabase cair.
+const TENTATIVAS_ATRIBUICAO = 3;
+const ATRASO_ENTRE_TENTATIVAS_MS = 1200;
 
 const formatarPrazo = (data: Date) =>
   data.toLocaleString('pt-BR', {
@@ -21,11 +31,68 @@ const formatarPrazo = (data: Date) =>
     minute: '2-digit',
   });
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+type EstadoBotao = 'preparando' | 'pronto' | 'fallback';
+
 const Obrigado = () => {
   const [prazo] = useState(() => new Date(Date.now() + BONUS_PRAZO_HORAS * 60 * 60 * 1000));
+  const [estadoBotao, setEstadoBotao] = useState<EstadoBotao>('preparando');
+  const [telefoneDestino, setTelefoneDestino] = useState(WHATSAPP_TELEFONE_PADRAO);
 
   useEffect(() => {
     document.title = 'Cadastro Confirmado - Instituto DespertaMENTE';
+  }, []);
+
+  useEffect(() => {
+    const leadId = new URLSearchParams(window.location.search).get('lead');
+
+    // Sem leadId pra atribuir (ex: caiu na contingência de leads) -- vai
+    // direto pro número genérico, sem tentar o rodízio.
+    if (!leadId) {
+      setEstadoBotao('fallback');
+      return;
+    }
+
+    let cancelado = false;
+
+    const atribuirVendedor = async () => {
+      for (let tentativa = 1; tentativa <= TENTATIVAS_ATRIBUICAO; tentativa++) {
+        try {
+          const response = await fetch('/api/atribuir-vendedor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ leadId }),
+            signal: AbortSignal.timeout(8000),
+          });
+
+          if (response.ok) {
+            const result = await response.json().catch(() => null);
+            if (result?.telefone && !cancelado) {
+              setTelefoneDestino(result.telefone);
+              setEstadoBotao('pronto');
+              return;
+            }
+          }
+        } catch {
+          // segue pra próxima tentativa
+        }
+
+        if (tentativa < TENTATIVAS_ATRIBUICAO) {
+          await sleep(ATRASO_ENTRE_TENTATIVAS_MS * tentativa);
+        }
+      }
+
+      // Esgotou as tentativas -- libera o botão com o número genérico pra não
+      // travar o lead, mesmo sem conseguir confirmar o rodízio.
+      if (!cancelado) setEstadoBotao('fallback');
+    };
+
+    atribuirVendedor();
+
+    return () => {
+      cancelado = true;
+    };
   }, []);
 
   return (
@@ -60,13 +127,20 @@ const Obrigado = () => {
             </div>
 
             <div className="text-center">
-              <a
-                href={WHATSAPP_URL}
-                className="inline-flex items-center gap-2 bg-idm-gold text-idm-navy font-bold text-base md:text-lg px-6 md:px-10 py-4 rounded-full hover:bg-green-600 hover:text-white transition-colors duration-300 shadow-lg"
-              >
-                <MessageCircle className="h-5 w-5" />
-                FALAR COM A EQUIPE AGORA
-              </a>
+              {estadoBotao === 'preparando' ? (
+                <span className="inline-flex items-center gap-2 bg-idm-gold/50 text-idm-navy font-bold text-base md:text-lg px-6 md:px-10 py-4 rounded-full cursor-wait">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Preparando seu atendimento...
+                </span>
+              ) : (
+                <a
+                  href={whatsappUrl(telefoneDestino)}
+                  className="inline-flex items-center gap-2 bg-idm-gold text-idm-navy font-bold text-base md:text-lg px-6 md:px-10 py-4 rounded-full hover:bg-green-600 hover:text-white transition-colors duration-300 shadow-lg"
+                >
+                  <MessageCircle className="h-5 w-5" />
+                  FALAR COM A EQUIPE AGORA
+                </a>
+              )}
               <p className="text-sm text-gray-600 mt-3">
                 Nossa equipe vai te atender o quanto antes, dentro do horário comercial.
               </p>

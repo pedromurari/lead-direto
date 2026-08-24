@@ -181,7 +181,11 @@ export default async function handler(request, response) {
       });
 
       if (upstreamResponse.ok) {
-        return respond(200, { success: true });
+        const upstreamJson = await upstreamResponse.json().catch(() => null);
+        return respond(200, {
+          success: true,
+          leadId: upstreamJson?.lead?.id ?? null,
+        });
       }
 
       console.error("Onze Digital recusou o lead; usando contingência", {
