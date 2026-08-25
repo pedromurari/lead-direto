@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react';
 import { CheckCircle, Clock, Loader2, MessageCircle } from 'lucide-react';
 import { Footer } from '@/components/Footer';
 
-const WHATSAPP_TELEFONE_PADRAO = '5511919434040';
+// Fallback pra quando o rodízio não confirma a tempo -- mesmo número usado
+// em WhatsAppLeadModal.tsx (Helen), não o número genérico antigo sem dono.
+const WHATSAPP_TELEFONE_PADRAO = '5511965781940';
 const WHATSAPP_MENSAGEM =
   'Olá! Acabei de me cadastrar e quero falar com a equipe agora.';
 const whatsappUrl = (telefone: string) =>

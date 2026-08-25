@@ -35,8 +35,16 @@ interface WhatsAppLeadModalProps {
   onClose: () => void;
 }
 
-const WHATSAPP_URL =
-  'https://wa.me/5511919434040?text=Ol%C3%A1!%20Quero%20receber%20informa%C3%A7%C3%B5es%20sobre%20a%20Forma%C3%A7%C3%A3o%20em%20Psican%C3%A1lise%20Integrativa%20do%20IDM.';
+// Numero generico antigo (5511919434040) nao tinha vendedor de olho -- leads
+// caiam num WhatsApp sem dono. Fallback agora aponta pra Helen (uma pessoa
+// real acompanhando), ate a Condicao Especial/Pague em 30 Dias ganharem
+// rodizio proprio como a pagina Padrao ja tem.
+const WHATSAPP_TELEFONE_FALLBACK = '5511965781940';
+const whatsappUrl = (telefone: string) =>
+  `https://wa.me/${telefone}?text=${encodeURIComponent(
+    'Olá! Quero receber informações sobre a Formação em Psicanálise Integrativa do IDM.',
+  )}`;
+const WHATSAPP_URL = whatsappUrl(WHATSAPP_TELEFONE_FALLBACK);
 
 // Função para aplicar máscara de telefone brasileiro
 const formatPhoneNumber = (value: string) => {
@@ -125,14 +133,30 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
       setSubmitStatus('success');
 
       // Pagina-ponte /obrigado (video/copy + bonus de matricula rapida) fica em
-      // standby ate o video e a copy do beneficio ficarem prontos -- PAGINA_PONTE_ATIVA
-      // = false manda todo mundo direto pro WhatsApp, igual as outras 2 paginas.
-      // Trocar pra true (e nada mais) quando o conteudo estiver fechado.
-      const PAGINA_PONTE_ATIVA = false;
-      const paginasSemPonte = ['/condicao-especial', '/pague-em-30-dias'];
-      const destino = !PAGINA_PONTE_ATIVA || paginasSemPonte.includes(window.location.pathname)
-        ? WHATSAPP_URL
-        : `/obrigado${result?.leadId ? `?lead=${result.leadId}` : ''}`;
+      // standby ate o video e a copy do beneficio ficarem prontos. O rodizio de
+      // vendedor (Helen/Miguel intercalados) ja roda de qualquer forma pra
+      // pagina Padrao -- so pula a ponte e manda direto pro WhatsApp de quem
+      // foi sorteado. Condicao Especial e Pague em 30 Dias ainda nao tem
+      // canal/campanha no Time Comercial, entao caem no fallback fixo.
+      const paginasSemRodizio = ['/condicao-especial', '/pague-em-30-dias'];
+      let destino = WHATSAPP_URL;
+
+      if (!paginasSemRodizio.includes(window.location.pathname) && result?.leadId) {
+        try {
+          const vendedorResponse = await fetch('/api/atribuir-vendedor', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ leadId: result.leadId }),
+            signal: AbortSignal.timeout(5000),
+          });
+          const vendedorResult = await vendedorResponse.json().catch(() => null);
+          if (vendedorResponse.ok && vendedorResult?.telefone) {
+            destino = whatsappUrl(vendedorResult.telefone);
+          }
+        } catch {
+          // Rodizio fora do ar -- segue com o fallback fixo, lead nao pode travar.
+        }
+      }
 
       setTimeout(() => {
         form.reset();
