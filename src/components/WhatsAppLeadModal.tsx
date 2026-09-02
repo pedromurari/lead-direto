@@ -134,11 +134,11 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
 
       // Pagina-ponte /obrigado (video/copy + bonus de matricula rapida) fica em
       // standby ate o video e a copy do beneficio ficarem prontos. O rodizio de
-      // vendedor (Helen/Miguel intercalados) ja roda de qualquer forma pra
-      // pagina Padrao -- so pula a ponte e manda direto pro WhatsApp de quem
-      // foi sorteado. Condicao Especial e Pague em 30 Dias ainda nao tem
-      // canal/campanha no Time Comercial, entao caem no fallback fixo.
-      const paginasSemRodizio = ['/condicao-especial', '/pague-em-30-dias'];
+      // vendedor (Helen/Miguel intercalados) ja roda pra Padrao e Condicao
+      // Especial -- so pula a ponte e manda direto pro WhatsApp de quem foi
+      // sorteado. Pague em 30 Dias ainda nao tem canal/campanha no Time
+      // Comercial, entao cai no fallback fixo.
+      const paginasSemRodizio = ['/pague-em-30-dias'];
       let destino = WHATSAPP_URL;
 
       if (!paginasSemRodizio.includes(window.location.pathname) && result?.leadId) {

@@ -20,10 +20,15 @@ const CAMPANHAS = {
 };
 const campanhaLabel = (pathname) => CAMPANHAS[pathname] ?? null;
 
-// Nome exato da campanha em `time_comercial_campanhas` (canal='Direto') --
-// so a pagina padrao roda pelo Time Comercial por enquanto; as outras 2
-// continuam em Leads Diretos (Pipeline.tsx) ate serem migradas tambem.
+// Nomes exatos das campanhas em `time_comercial_campanhas` (canal='Direto').
+// Qualquer pagina fora desse mapa (a padrao, "/") cai como campanha "Padrao".
+// "/pague-em-30-dias" ainda nao foi migrada, continua em Leads Diretos
+// (Pipeline.tsx) ate ser conectada tambem.
 const CAMPANHA_PADRAO_TIME_COMERCIAL = "Padrão — Formação em Psicanálise";
+const CAMPANHAS_TIME_COMERCIAL = {
+  "/condicao-especial": "Condição Especial — 2ª e 3ª parcela 50% OFF",
+};
+const PAGINAS_FORA_TIME_COMERCIAL = ["/pague-em-30-dias"];
 
 /**
  * Envia o evento "Lead" para a Meta Conversions API, espelhando o Pixel do
@@ -83,7 +88,8 @@ export default async function handler(request, response) {
   const nome = String(body?.nome ?? "").trim();
   const whatsapp = normalizePhone(body?.whatsapp);
   const attribution = body?.attribution ?? {};
-  const campanha = campanhaLabel(cleanText(body?.pagina_atual, 100));
+  const pagina = cleanText(body?.pagina_atual, 100);
+  const campanha = campanhaLabel(pagina);
 
   if (nome.length < 2 || whatsapp.length < 10 || whatsapp.length > 11) {
     return response.status(400).json({
@@ -91,11 +97,14 @@ export default async function handler(request, response) {
     });
   }
 
-  // Pagina padrao ("/") entra pelo Funil do Time Comercial (canal Direto), ja
-  // disponivel pros vendedores pegarem. Condicao Especial e Pague em 30 Dias
-  // continuam em Leads Diretos ate serem migradas tambem.
-  const isPadrao = campanha === null;
-  const webhookUrl = isPadrao
+  // Pagina padrao ("/") e Condicao Especial entram pelo Funil do Time
+  // Comercial (canal Direto), com rodizio de vendedor. Pague em 30 Dias
+  // continua em Leads Diretos ate ser conectada tambem.
+  const nomeCampanhaTimeComercial = PAGINAS_FORA_TIME_COMERCIAL.includes(pagina)
+    ? null
+    : CAMPANHAS_TIME_COMERCIAL[pagina] ?? CAMPANHA_PADRAO_TIME_COMERCIAL;
+  const usaTimeComercial = nomeCampanhaTimeComercial !== null;
+  const webhookUrl = usaTimeComercial
     ? process.env.ONZE_TIME_COMERCIAL_WEBHOOK_URL ??
       DEFAULT_TIME_COMERCIAL_WEBHOOK_URL
     : process.env.ONZE_WEBHOOK_URL ?? DEFAULT_ONZE_WEBHOOK_URL;
@@ -151,13 +160,13 @@ export default async function handler(request, response) {
     .filter(Boolean)
     .join("\n");
 
-  const webhookBody = isPadrao
+  const webhookBody = usaTimeComercial
     ? {
         nome: leadPayload.nome,
         whatsapp: leadPayload.whatsapp,
         curso_interesse: "Formação em Psicanálise Clínica Integrativa",
         canal: "Direto",
-        campanha: CAMPANHA_PADRAO_TIME_COMERCIAL,
+        campanha: nomeCampanhaTimeComercial,
         observacoes,
       }
     : {
