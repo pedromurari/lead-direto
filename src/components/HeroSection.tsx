@@ -3,7 +3,7 @@ import { CheckCircle, Star, Clock, Award, GraduationCap, ShieldCheck } from 'luc
 
 export type OfferVariant = 'default' | 'condicao-especial' | 'pague-em-30-dias';
 
-const HERO_COPY: Record<OfferVariant, { badge: string; subheadline: React.ReactNode; rodape: string }> = {
+const HERO_COPY: Record<OfferVariant, { badge: string; subheadline: React.ReactNode; rodape: string; faixaDesconto?: string }> = {
   default: {
     badge: '✨ FORMAÇÃO RECONHECIDA',
     subheadline: (
@@ -13,6 +13,7 @@ const HERO_COPY: Record<OfferVariant, { badge: string; subheadline: React.ReactN
       </>
     ),
     rodape: '✨ Vagas limitadas para a próxima turma!',
+    faixaDesconto: 'VAGAS LIMITADAS PARA A PRÓXIMA TURMA | GARANTA SEU LUGAR AGORA',
   },
   'condicao-especial': {
     badge: '🎁 CONDIÇÃO ESPECIAL DE PARCELAS',
@@ -23,6 +24,7 @@ const HERO_COPY: Record<OfferVariant, { badge: string; subheadline: React.ReactN
       </>
     ),
     rodape: '🎁 Condição especial válida só durante a campanha!',
+    faixaDesconto: '2ª E 3ª PARCELA COM 50% OFF | VÁLIDO SÓ DURANTE A CAMPANHA',
   },
   'pague-em-30-dias': {
     badge: '📝 ASSINE HOJE, PAGUE EM 30 DIAS',
@@ -62,7 +64,14 @@ export const HeroSection = ({ variant = 'default' }: HeroSectionProps) => {
             <Star className="mr-2 h-4 w-4 md:h-5 md:w-5" />
             {copy.badge}
           </div>
-          
+
+          {/* Faixa de desconto/urgência */}
+          {copy.faixaDesconto && (
+            <div className="mb-6 md:mb-8 mx-2 bg-black/30 border border-idm-gold/50 rounded-xl px-4 py-2.5 md:py-3 text-xs md:text-sm font-bold tracking-wide text-idm-gold uppercase">
+              {copy.faixaDesconto}
+            </div>
+          )}
+
           {/* Headline Principal - melhor alinhamento */}
           <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 md:mb-8 text-center">
             <span className="text-idm-gold">✨ Desperte</span> o Psicanalista<br />
@@ -108,6 +117,11 @@ export const HeroSection = ({ variant = 'default' }: HeroSectionProps) => {
                     <span>Validade Nacional</span>
                   </div>
                 </div>
+                {variant !== 'pague-em-30-dias' && (
+                  <p className="text-xs md:text-sm text-gray-300 mt-4 italic">
+                    Anhanguera faz parte do maior grupo educacional do Brasil — seu certificado carrega esse peso.
+                  </p>
+                )}
               </div>
             </div>
           </div>
