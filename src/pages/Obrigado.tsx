@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { CheckCircle, Clock, Loader2, MessageCircle } from 'lucide-react';
 import { Footer } from '@/components/Footer';
 
-// Preencher com o ID do vídeo no YouTube (ex: "dQw4w9WgXcQ") assim que o
-// Rodrygo subir ele lá como não-listado. Vazio = mostra o placeholder.
-const VIDEO_YOUTUBE_ID = '';
+// Video self-hosted (comprimido de 144MB pra ~19MB, mesmo esquema usado em
+// psicuritiba.idmpelobrasil.com.br/videos/) -- serve direto do /public, sem
+// depender de YouTube/Vimeo.
+const VIDEO_SRC = '/videos/obrigado-setembro-amarelo.mp4';
 
 // Fallback pra quando o rodízio não confirma a tempo -- mesmo número usado
 // em WhatsAppLeadModal.tsx (Helen), não o número genérico antigo sem dono.
@@ -114,21 +115,17 @@ const Obrigado = () => {
 
         <section className="py-8 md:py-12 px-4">
           <div className="max-w-3xl mx-auto">
-            {VIDEO_YOUTUBE_ID ? (
-              <div className="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg">
-                <iframe
-                  className="w-full h-full"
-                  src={`https://www.youtube.com/embed/${VIDEO_YOUTUBE_ID}`}
-                  title="Instituto DespertaMENTE"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            ) : (
-              <div className="aspect-video bg-gray-100 border-2 border-dashed border-idm-gold/40 rounded-2xl flex items-center justify-center mb-8">
-                <p className="text-gray-400 text-sm md:text-base px-4 text-center">[ vídeo em breve ]</p>
-              </div>
-            )}
+            <div className="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg bg-black">
+              <video
+                className="w-full h-full"
+                controls
+                playsInline
+                preload="metadata"
+                src={VIDEO_SRC}
+              >
+                Seu navegador não suporta vídeo em HTML5.
+              </video>
+            </div>
 
             <p className="text-gray-700 text-sm md:text-base text-center mb-6 leading-relaxed">
               Se você chegou até aqui, é porque em algum momento sentiu o quanto a mente humana
