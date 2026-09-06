@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import { CheckCircle, Clock, Loader2, MessageCircle } from 'lucide-react';
 import { Footer } from '@/components/Footer';
 
+// Preencher com o ID do vídeo no YouTube (ex: "dQw4w9WgXcQ") assim que o
+// Rodrygo subir ele lá como não-listado. Vazio = mostra o placeholder.
+const VIDEO_YOUTUBE_ID = '';
+
 // Fallback pra quando o rodízio não confirma a tempo -- mesmo número usado
 // em WhatsAppLeadModal.tsx (Helen), não o número genérico antigo sem dono.
 const WHATSAPP_TELEFONE_PADRAO = '5511965781940';
@@ -110,21 +114,42 @@ const Obrigado = () => {
 
         <section className="py-8 md:py-12 px-4">
           <div className="max-w-3xl mx-auto">
-            {/* Espaço reservado pro vídeo */}
-            <div className="aspect-video bg-gray-100 border-2 border-dashed border-idm-gold/40 rounded-2xl flex items-center justify-center mb-8">
-              <p className="text-gray-400 text-sm md:text-base px-4 text-center">[ vídeo em breve ]</p>
-            </div>
+            {VIDEO_YOUTUBE_ID ? (
+              <div className="aspect-video rounded-2xl overflow-hidden mb-8 shadow-lg">
+                <iframe
+                  className="w-full h-full"
+                  src={`https://www.youtube.com/embed/${VIDEO_YOUTUBE_ID}`}
+                  title="Instituto DespertaMENTE"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            ) : (
+              <div className="aspect-video bg-gray-100 border-2 border-dashed border-idm-gold/40 rounded-2xl flex items-center justify-center mb-8">
+                <p className="text-gray-400 text-sm md:text-base px-4 text-center">[ vídeo em breve ]</p>
+              </div>
+            )}
 
-            <div className="bg-idm-light-blue rounded-2xl p-5 md:p-8 text-center mb-6">
+            <p className="text-gray-700 text-sm md:text-base text-center mb-6 leading-relaxed">
+              Se você chegou até aqui, é porque em algum momento sentiu o quanto a mente humana
+              precisa ser compreendida — inclusive a sua. A Psicanálise não é só uma profissão:
+              é aprender a escutar, acolher e enxergar o que existe por trás dos comportamentos.
+            </p>
+
+            <div className="bg-idm-light-blue rounded-2xl p-5 md:p-8 text-center mb-6 border-2 border-idm-gold/40">
               <Clock className="h-8 w-8 text-idm-navy mx-auto mb-2" />
+              <p className="text-xs md:text-sm font-bold uppercase tracking-wide text-idm-gold mb-1">
+                🎗️ Edição Setembro Amarelo
+              </p>
               <h2 className="text-xl md:text-2xl font-bold text-idm-navy mb-2">
-                Matricule-se em até {BONUS_PRAZO_HORAS}h e garanta [bônus a definir]
+                Matricule-se em até {BONUS_PRAZO_HORAS}h e garanta 50% OFF + bônus especiais
               </h2>
               <p className="text-idm-navy text-sm md:text-base">
                 Prazo: <strong>{formatarPrazo(prazo)}</strong>
               </p>
               <p className="text-xs text-gray-600 mt-2">
-                *Oferta válida em horário comercial (seg. a sáb., 9h às 18h)
+                *Vagas limitadas. Condição confirmada com a equipe comercial, válida em horário
+                comercial (seg. a sáb., 9h às 18h).
               </p>
             </div>
 

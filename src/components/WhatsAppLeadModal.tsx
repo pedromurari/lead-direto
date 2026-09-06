@@ -132,31 +132,16 @@ export const WhatsAppLeadModal = ({ isOpen, onClose }: WhatsAppLeadModalProps) =
       window.fbq?.('track', 'Lead', {}, { eventID: eventId });
       setSubmitStatus('success');
 
-      // Pagina-ponte /obrigado (video/copy + bonus de matricula rapida) fica em
-      // standby ate o video e a copy do beneficio ficarem prontos. O rodizio de
-      // vendedor (Helen/Miguel intercalados) ja roda pra Padrao e Condicao
-      // Especial -- so pula a ponte e manda direto pro WhatsApp de quem foi
-      // sorteado. Pague em 30 Dias ainda nao tem canal/campanha no Time
-      // Comercial, entao cai no fallback fixo.
-      const paginasSemRodizio = ['/pague-em-30-dias'];
-      let destino = WHATSAPP_URL;
-
-      if (!paginasSemRodizio.includes(window.location.pathname) && result?.leadId) {
-        try {
-          const vendedorResponse = await fetch('/api/atribuir-vendedor', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ leadId: result.leadId }),
-            signal: AbortSignal.timeout(5000),
-          });
-          const vendedorResult = await vendedorResponse.json().catch(() => null);
-          if (vendedorResponse.ok && vendedorResult?.telefone) {
-            destino = whatsappUrl(vendedorResult.telefone);
-          }
-        } catch {
-          // Rodizio fora do ar -- segue com o fallback fixo, lead nao pode travar.
-        }
-      }
+      // Pagina-ponte /obrigado (video + bonus de matricula rapida, reativada) ja
+      // resolve o rodizio de vendedor sozinha (com retry) -- aqui so decide se a
+      // pagina atual passa por ela. Padrao e Condicao Especial tem canal/campanha
+      // no Time Comercial, entao usam a ponte. Pague em 30 Dias ainda nao, cai
+      // direto no WhatsApp generico.
+      const paginasSemPonte = ['/pague-em-30-dias'];
+      const usaPonte = !paginasSemPonte.includes(window.location.pathname);
+      const destino = usaPonte && result?.leadId
+        ? `/obrigado?lead=${result.leadId}`
+        : WHATSAPP_URL;
 
       setTimeout(() => {
         form.reset();
